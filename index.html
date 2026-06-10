@@ -80,12 +80,24 @@
   }
   #map { height:58vh; min-height:380px; width:100%; }
   .legend {
-    display:flex; gap:18px; flex-wrap:wrap; padding:14px 18px;
-    background:#fff; font-size:13px; font-weight:500;
-    border-top:1px solid var(--line);
+    display:flex; gap:9px; flex-wrap:wrap; padding:13px 16px;
+    background:#fff; border-top:1px solid var(--line);
   }
-  .legend span { display:inline-flex; align-items:center; gap:7px; color:var(--muted); }
+  .leg {
+    display:inline-flex; align-items:center; gap:7px; color:var(--muted);
+    background:#f4f7f9; border:1px solid var(--line); border-radius:999px;
+    padding:6px 13px; font-family:inherit; font-size:13px; font-weight:600;
+    cursor:pointer; transition:background .15s, color .15s, border-color .15s;
+  }
+  .leg:hover { border-color:#c4d0da; color:var(--ink); }
+  .leg.active { background:var(--sea); color:#fff; border-color:var(--sea); }
+  .leg.active .dot { box-shadow:0 0 0 3px rgba(255,255,255,.35); }
+  .leg-reset { color:var(--sea); }
   .dot { width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow:0 0 0 3px rgba(0,0,0,.05); }
+
+  /* animated route line */
+  .flow { stroke-dasharray:2 13; stroke-linecap:round; animation:flow 1.1s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset:-30; } }
 
   /* ---------- ROUTES ---------- */
   .routes { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:10px; }
@@ -194,14 +206,15 @@
 
   <section>
     <h2 class="sec-title">El mapa</h2>
-    <p class="sec-sub">10 parades, acolorides per dia. Clica un punt per obrir-lo a Google Maps.</p>
+    <p class="sec-sub">Clica un <b>dia</b> a la llegenda per veure'l sol amb la seva ruta; clica un <b>punt</b> per obrir-lo a Google Maps.</p>
     <div class="map-card">
       <div id="map"></div>
       <div class="legend">
-        <span><i class="dot" style="background:var(--d1)"></i> Dia 1 · dc 22</span>
-        <span><i class="dot" style="background:var(--d2)"></i> Dia 2 · dj 23</span>
-        <span><i class="dot" style="background:var(--d3)"></i> Dia 3 · dv 24</span>
-        <span><i class="dot" style="background:var(--d4)"></i> Dia 4 · ds 25</span>
+        <button type="button" class="leg" data-day="1"><i class="dot" style="background:var(--d1)"></i> Dia 1 · dc 22</button>
+        <button type="button" class="leg" data-day="2"><i class="dot" style="background:var(--d2)"></i> Dia 2 · dj 23</button>
+        <button type="button" class="leg" data-day="3"><i class="dot" style="background:var(--d3)"></i> Dia 3 · dv 24</button>
+        <button type="button" class="leg" data-day="4"><i class="dot" style="background:var(--d4)"></i> Dia 4 · ds 25</button>
+        <button type="button" class="leg leg-reset" data-day="0">Tots els dies</button>
       </div>
     </div>
   </section>
@@ -229,7 +242,7 @@
     <h2 class="sec-title">Itinerari dia a dia</h2>
     <p class="sec-sub">Horaris pensats per la calor de juliol: pobles al matí, banys al migdia, fortaleses al capvespre.</p>
 
-    <article class="day">
+    <article class="day" data-day="1">
       <div class="day-head">
         <span class="day-num" style="background:var(--d1)">1</span>
         <div><span class="dow">Dimecres 22</span><h3>Arribada, fortalesa i Kotor</h3></div>
@@ -241,7 +254,7 @@
       </ul>
     </article>
 
-    <article class="day">
+    <article class="day" data-day="2">
       <div class="day-head">
         <span class="day-num" style="background:var(--d2)">2</span>
         <div><span class="dow">Dijous 23</span><h3>La badia, sense presses</h3></div>
@@ -254,7 +267,7 @@
       </ul>
     </article>
 
-    <article class="day">
+    <article class="day" data-day="3">
       <div class="day-head">
         <span class="day-num" style="background:var(--d3)">3</span>
         <div><span class="dow">Divendres 24</span><h3>Luštica, glamur i festa</h3></div>
@@ -267,7 +280,7 @@
       </ul>
     </article>
 
-    <article class="day">
+    <article class="day" data-day="4">
       <div class="day-head">
         <span class="day-num" style="background:var(--d4)">4</span>
         <div><span class="dow">Dissabte 25</span><h3>Ressaca i vol</h3></div>
@@ -302,19 +315,32 @@
     maxZoom: 19, attribution: '© OpenStreetMap, © CARTO'
   }).addTo(map);
 
+  var DAY_COLORS = {1:'#e63946', 2:'#e8893a', 3:'#1f9e8f', 4:'#7b53b8'};
+  var PRCANJ = [42.449,18.7539];
+
   var stops = [
-    {n:'Prčanj (base)', c:[42.449,18.7539], d:'#e63946', t:'Dia 1 · 13:00 · banys a casa · el nostre allotjament', u:'https://maps.google.com/?cid=6818736469209358801', base:true},
-    {n:'Casc antic de Kotor', c:[42.4247,18.7712], d:'#e63946', t:'Dia 1 · 19:00 · sopar i copes', u:'https://maps.google.com/?cid=7213753815455049709'},
-    {n:'Perast', c:[42.4860,18.6983], d:'#e8893a', t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
-    {n:'Our Lady of the Rocks', c:[42.4868,18.6887], d:'#e8893a', t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
-    {n:'Fortalesa San Giovanni', c:[42.4221,18.7748], d:'#e63946', t:'Dia 1 · 18:15 · posta de sol', u:'https://maps.google.com/?cid=13101188094826256396'},
-    {n:'Platja de Žanjice', c:[42.3947,18.5792], d:'#1f9e8f', t:'Dia 3 · 09:30 · bany i dinar', u:'https://maps.google.com/?cid=12517155045902395893'},
-    {n:'Porto Montenegro (Tivat)', c:[42.4351,18.6939], d:'#1f9e8f', t:'Dia 3 · 15:30 · copa entre iots', u:'https://maps.google.com/?cid=5170883614328628721'},
-    {n:'Mirador Sveti Stefan', c:[42.2581,18.8960], d:'#1f9e8f', t:'Dia 3 · 19:30 · la foto', u:'https://maps.google.com/?cid=2402749889030866949'},
-    {n:'Casc antic de Budva', c:[42.2778,18.8381], d:'#1f9e8f', t:'Dia 3 · 20:45 · FESTA', u:'https://maps.google.com/?cid=15325553490007822475'},
-    {n:'Aeroport de Tivat', c:[42.4047,18.7232], d:'#7b53b8', t:'Dia 4 · 11:00 · cotxe + vol 13:00', u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro'}
+    {n:'Prčanj (base)', c:PRCANJ, day:1, t:'Base · el nostre allotjament', u:'https://maps.google.com/?cid=6818736469209358801', base:true},
+    {n:'Fortalesa San Giovanni', c:[42.4221,18.7748], day:1, t:'Dia 1 · 18:15 · posta de sol', u:'https://maps.google.com/?cid=13101188094826256396'},
+    {n:'Casc antic de Kotor', c:[42.4247,18.7712], day:1, t:'Dia 1 · 21:00 · sopar i copes', u:'https://maps.google.com/?cid=7213753815455049709'},
+    {n:'Perast', c:[42.4860,18.6983], day:2, t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
+    {n:'Our Lady of the Rocks', c:[42.4868,18.6887], day:2, t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
+    {n:'Platja de Žanjice', c:[42.3947,18.5792], day:3, t:'Dia 3 · 09:30 · bany i dinar', u:'https://maps.google.com/?cid=12517155045902395893'},
+    {n:'Porto Montenegro (Tivat)', c:[42.4351,18.6939], day:3, t:'Dia 3 · 15:30 · copa entre iots', u:'https://maps.google.com/?cid=5170883614328628721'},
+    {n:'Mirador Sveti Stefan', c:[42.2581,18.8960], day:3, t:'Dia 3 · 19:30 · la foto', u:'https://maps.google.com/?cid=2402749889030866949'},
+    {n:'Casc antic de Budva', c:[42.2778,18.8381], day:3, t:'Dia 3 · 20:45 · FESTA', u:'https://maps.google.com/?cid=15325553490007822475'},
+    {n:'Aeroport de Tivat', c:[42.4047,18.7232], day:4, t:'Dia 4 · 11:00 · cotxe + vol 13:00', u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro'}
   ];
-  var bounds = [], baseMarker = null;
+
+  // ruta ordenada de cada dia (surt de la base i, si escau, hi torna)
+  var dayPaths = {
+    1: [PRCANJ, [42.4221,18.7748], [42.4247,18.7712]],
+    2: [PRCANJ, [42.4860,18.6983], [42.4868,18.6887], PRCANJ],
+    3: [PRCANJ, [42.3947,18.5792], [42.4351,18.6939], [42.2581,18.8960], [42.2778,18.8381]],
+    4: [PRCANJ, [42.4047,18.7232]]
+  };
+
+  var dayMarkers = {1:[],2:[],3:[],4:[]}, dayLines = {}, baseMarker = null, allBounds = [];
+
   stops.forEach(function(s){
     var popup =
       '<div class="pop-title">'+s.n+'</div>'+
@@ -322,14 +348,46 @@
       '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>';
     if (s.base) {
       var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot">🏠</span></div>', iconSize:[28,28], iconAnchor:[14,14]});
-      baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).addTo(map).bindPopup(popup);
+      baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).bindPopup(popup);
     } else {
-      var icon = L.divIcon({className:'', html:'<div style="width:20px;height:20px;border-radius:50%;background:'+s.d+';border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"></div>', iconSize:[20,20], iconAnchor:[10,10]});
-      L.marker(s.c, {icon:icon}).addTo(map).bindPopup(popup);
+      var col = DAY_COLORS[s.day];
+      var icon = L.divIcon({className:'', html:'<div style="width:20px;height:20px;border-radius:50%;background:'+col+';border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"></div>', iconSize:[20,20], iconAnchor:[10,10]});
+      dayMarkers[s.day].push(L.marker(s.c, {icon:icon}).bindPopup(popup));
     }
-    bounds.push(s.c);
+    allBounds.push(s.c);
   });
-  map.fitBounds(bounds, {padding:[50,50]});
+
+  [1,2,3,4].forEach(function(d){
+    var col = DAY_COLORS[d];
+    var solid = L.polyline(dayPaths[d], {color:col, weight:4, opacity:.3, lineJoin:'round'});
+    var flow  = L.polyline(dayPaths[d], {color:col, weight:4, opacity:.95, lineJoin:'round', className:'flow'});
+    dayLines[d] = L.layerGroup([solid, flow]);
+  });
+
+  function showDay(day){ // 0 = tots els dies
+    for (var d=1; d<=4; d++){
+      var on = (day===0 || day===d);
+      dayMarkers[d].forEach(function(m){ if(on){ m.addTo(map); } else { map.removeLayer(m); } });
+      if(on){ dayLines[d].addTo(map); } else { map.removeLayer(dayLines[d]); }
+    }
+    baseMarker.addTo(map);
+    document.querySelectorAll('.day').forEach(function(c){
+      c.style.display = (day===0 || +c.getAttribute('data-day')===day) ? '' : 'none';
+    });
+    document.querySelectorAll('.leg').forEach(function(b){
+      b.classList.toggle('active', +b.getAttribute('data-day')===day);
+    });
+    map.fitBounds(day===0 ? allBounds : dayPaths[day], {padding:[55,55]});
+  }
+
+  document.querySelectorAll('.leg').forEach(function(b){
+    b.addEventListener('click', function(){
+      var d = +b.getAttribute('data-day');
+      showDay((d===0 || b.classList.contains('active')) ? 0 : d);
+    });
+  });
+
+  showDay(0);
 
   function bounceBase(){
     if(!baseMarker || !baseMarker._icon) return;
