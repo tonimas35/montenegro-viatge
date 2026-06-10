@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Montenegro · Boka Kotorska · 22–25 juliol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  :root {
+    --ink:#13202e; --muted:#5b6b7a; --line:#e4e9ee;
+    --sea:#0d3b66; --sea-deep:#0a2d4d;
+    --d1:#e63946; --d2:#e8893a; --d3:#1f9e8f; --d4:#7b53b8;
+    --paper:#f6f8fa;
+    --shadow:0 1px 2px rgba(16,40,64,.04), 0 8px 28px rgba(16,40,64,.08);
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; color:var(--ink); background:var(--paper);
+    font-family:'Inter', -apple-system, system-ui, sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position:relative; color:#fff; overflow:hidden;
+    padding:90px 24px 56px;
+    background:
+      linear-gradient(165deg, rgba(10,45,77,.62) 0%, rgba(10,45,77,.82) 100%),
+      radial-gradient(120% 140% at 85% -10%, rgba(31,158,143,.45), transparent 55%),
+      url('hero.jpg') center/cover no-repeat,
+      linear-gradient(160deg, var(--sea) 0%, var(--sea-deep) 100%);
+  }
+  .hero::after {
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:64px;
+    background:linear-gradient(to top, var(--paper), transparent);
+    pointer-events:none;
+  }
+  .hero-inner { max-width:860px; margin:0 auto; position:relative; z-index:2; }
+  .kicker {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.22);
+    padding:6px 12px; border-radius:999px; backdrop-filter:blur(6px);
+  }
+  .hero h1 {
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(32px, 6vw, 52px); line-height:1.04;
+    margin:18px 0 10px; letter-spacing:-.01em;
+  }
+  .hero p { margin:0; font-size:16px; max-width:560px; color:rgba(255,255,255,.86); }
+  .facts { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  .fact {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:13.5px; font-weight:500;
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+    padding:8px 13px; border-radius:12px; backdrop-filter:blur(6px);
+  }
+  .fact b { font-weight:700; }
+
+  /* ---------- WRAP ---------- */
+  .wrap { max-width:860px; margin:0 auto; padding:0 24px; }
+  section { margin-top:38px; }
+  .sec-title {
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:22px; margin:0 0 4px; letter-spacing:-.01em;
+  }
+  .sec-sub { margin:0 0 16px; color:var(--muted); font-size:14px; }
+
+  /* ---------- MAP ---------- */
+  .map-card {
+    border-radius:18px; overflow:hidden; box-shadow:var(--shadow);
+    border:1px solid var(--line); background:#fff;
+  }
+  #map { height:58vh; min-height:380px; width:100%; }
+  .legend {
+    display:flex; gap:18px; flex-wrap:wrap; padding:14px 18px;
+    background:#fff; font-size:13px; font-weight:500;
+    border-top:1px solid var(--line);
+  }
+  .legend span { display:inline-flex; align-items:center; gap:7px; color:var(--muted); }
+  .dot { width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow:0 0 0 3px rgba(0,0,0,.05); }
+
+  /* ---------- ROUTES ---------- */
+  .routes { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:10px; }
+  .route {
+    display:flex; align-items:center; gap:12px;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:13px 15px; text-decoration:none; color:var(--ink);
+    font-size:14px; font-weight:600; transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .route:hover { transform:translateY(-2px); box-shadow:var(--shadow); border-color:#cdd7e0; }
+  .route .pin {
+    width:34px; height:34px; flex:0 0 34px; border-radius:10px;
+    display:grid; place-items:center; color:#fff; font-weight:700; font-size:13px;
+  }
+  .route .arrow { margin-left:auto; color:var(--muted); font-weight:700; }
+
+  /* ---------- DAYS ---------- */
+  .day {
+    background:#fff; border:1px solid var(--line); border-radius:18px;
+    padding:4px 0; margin-bottom:16px; box-shadow:var(--shadow); overflow:hidden;
+  }
+  .day-head {
+    display:flex; align-items:center; gap:14px;
+    padding:18px 22px 14px; border-bottom:1px solid var(--line);
+  }
+  .day-num {
+    width:42px; height:42px; flex:0 0 42px; border-radius:12px;
+    display:grid; place-items:center; color:#fff;
+    font-family:'Fraunces',serif; font-weight:700; font-size:20px;
+  }
+  .day-head h3 { margin:0; font-size:17px; font-weight:700; }
+  .day-head .dow { display:block; font-size:12.5px; font-weight:600; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; }
+  .stops { list-style:none; margin:0; padding:8px 22px 18px; }
+  .stops li {
+    display:flex; gap:14px; padding:11px 0;
+    border-bottom:1px solid #f0f3f6;
+  }
+  .stops li:last-child { border-bottom:0; }
+  .time {
+    flex:0 0 56px; font-variant-numeric:tabular-nums;
+    font-weight:700; font-size:14px; color:var(--ink); padding-top:1px;
+  }
+  .stop-body { font-size:14.5px; color:#34465a; }
+  .stop-body a { color:var(--sea); font-weight:600; text-decoration:none; border-bottom:1.5px solid rgba(13,59,102,.25); }
+  .stop-body a:hover { border-bottom-color:var(--sea); }
+  .stop-body .name { font-weight:700; color:var(--ink); }
+  .tag {
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; padding:2px 8px; border-radius:6px; margin-left:6px;
+    background:#fbe9ec; color:var(--d1); vertical-align:middle;
+  }
+
+  /* ---------- NOTES ---------- */
+  .notes-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:12px; }
+  .note {
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:16px 18px; box-shadow:var(--shadow);
+  }
+  .note h4 { margin:0 0 6px; font-size:14.5px; display:flex; align-items:center; gap:8px; }
+  .note p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.5; }
+
+  footer { text-align:center; color:var(--muted); font-size:12.5px; padding:34px 24px 40px; }
+
+  /* ---------- Leaflet popup ---------- */
+  .leaflet-popup-content-wrapper { border-radius:14px; box-shadow:0 10px 30px rgba(16,40,64,.18); }
+  .leaflet-popup-content { margin:14px 16px; font-family:'Inter',sans-serif; }
+  .pop-title { font-weight:700; font-size:14.5px; color:var(--ink); }
+  .pop-sub { font-size:12.5px; color:var(--muted); margin:3px 0 9px; }
+  .pop-link {
+    display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600;
+    color:#fff; background:var(--sea); padding:6px 11px; border-radius:8px; text-decoration:none;
+  }
+  .pop-link:hover { background:var(--sea-deep); }
+
+  @media (max-width:560px){
+    .hero { padding:40px 20px 34px; }
+    .wrap { padding:0 16px; }
+    .time { flex-basis:48px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="kicker">🇲🇪 Boka Kotorska · 22–25 juliol</span>
+    <h1>Montenegro</h1>
+    <p>Quatre dies per la badia de Kotor: mar, pobles de pedra, fortaleses al capvespre i una nit de festa a Budva.</p>
+    <div class="facts">
+      <span class="fact">🏠 Base: <b>Prčanj</b></span>
+      <span class="fact">🚗 Cotxe <b>tot el viatge</b></span>
+      <span class="fact">✈️ Tornada: <b>ds 25 · 13:00 (Tivat)</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2 class="sec-title">El mapa</h2>
+    <p class="sec-sub">10 parades, acolorides per dia. Clica un punt per obrir-lo a Google Maps.</p>
+    <div class="map-card">
+      <div id="map"></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--d1)"></i> Dia 1 · dc 22</span>
+        <span><i class="dot" style="background:var(--d2)"></i> Dia 2 · dj 23</span>
+        <span><i class="dot" style="background:var(--d3)"></i> Dia 3 · dv 24</span>
+        <span><i class="dot" style="background:var(--d4)"></i> Dia 4 · ds 25</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Ruta del dia</h2>
+    <p class="sec-sub">Enllaços de navegació directa (s'obren a Google Maps al mòbil).</p>
+    <div class="routes">
+      <a class="route" href="https://www.google.com/maps/dir/Pr%C4%8Danj,+Montenegro/Kotor+Old+Town,+Montenegro" target="_blank" rel="noopener">
+        <span class="pin" style="background:var(--d1)">1</span> Prčanj → Kotor <span class="arrow">→</span>
+      </a>
+      <a class="route" href="https://www.google.com/maps/dir/Perast,+Montenegro/Our+Lady+of+the+Rocks/Pr%C4%8Danj,+Montenegro/San+Giovanni+Fortress,+Kotor" target="_blank" rel="noopener">
+        <span class="pin" style="background:var(--d2)">2</span> Perast → illa → Fortalesa <span class="arrow">→</span>
+      </a>
+      <a class="route" href="https://www.google.com/maps/dir/%C5%BDanjice+Beach,+Montenegro/Porto+Montenegro,+Tivat/Sveti+Stefan+view+point/Old+Town,+Budva" target="_blank" rel="noopener">
+        <span class="pin" style="background:var(--d3)">3</span> Žanjice → Tivat → Budva <span class="arrow">→</span>
+      </a>
+      <a class="route" href="https://www.google.com/maps/dir/Pr%C4%8Danj,+Montenegro/Tivat+Airport,+Montenegro" target="_blank" rel="noopener">
+        <span class="pin" style="background:var(--d4)">4</span> Prčanj → Aeroport <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Itinerari dia a dia</h2>
+    <p class="sec-sub">Horaris pensats per la calor de juliol: pobles al matí, banys al migdia, fortaleses al capvespre.</p>
+
+    <article class="day">
+      <div class="day-head">
+        <span class="day-num" style="background:var(--d1)">1</span>
+        <div><span class="dow">Dimecres 22</span><h3>Aterratge suau</h3></div>
+      </div>
+      <ul class="stops">
+        <li><span class="time">13:00</span><div class="stop-body"><a href="https://maps.google.com/?cid=6818736469209358801" target="_blank" rel="noopener" class="name">Prčanj</a> — instal·lació, compra i bany a les plataformes de pedra. Migdiada: el juliol no perdona.</div></li>
+        <li><span class="time">19:00</span><div class="stop-body"><a href="https://maps.google.com/?cid=7213753815455049709" target="_blank" rel="noopener" class="name">Casc antic de Kotor</a> — aparcar fora muralles, sopar i primera copa dins.</div></li>
+      </ul>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <span class="day-num" style="background:var(--d2)">2</span>
+        <div><span class="dow">Dijous 23</span><h3>La badia clàssica</h3></div>
+      </div>
+      <ul class="stops">
+        <li><span class="time">08:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=8280534372461368745" target="_blank" rel="noopener" class="name">Perast</a> — abans de les 9h per aparcar. Esmorzar al moll.</div></li>
+        <li><span class="time">10:00</span><div class="stop-body"><a href="https://maps.google.com/?cid=5400818497840744618" target="_blank" rel="noopener" class="name">Our Lady of the Rocks</a> — barca des de Perast (efectiu, 2-3 € l'església, espatlles cobertes). Després caiac/paddle per la badia.</div></li>
+        <li><span class="time">14:00</span><div class="stop-body"><span class="name">Prčanj</span> — dinar, bany i descans.</div></li>
+        <li><span class="time">18:15</span><div class="stop-body"><a href="https://maps.google.com/?cid=13101188094826256396" target="_blank" rel="noopener" class="name">Fortalesa de San Giovanni</a> — 1.350 graons, dalt a la posta (≈20:30). 15 € efectiu/persona. Sopar i copes a Kotor.</div></li>
+      </ul>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <span class="day-num" style="background:var(--d3)">3</span>
+        <div><span class="dow">Divendres 24</span><h3>Luštica, glamur i festa</h3></div>
+      </div>
+      <ul class="stops">
+        <li><span class="time">09:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=12517155045902395893" target="_blank" rel="noopener" class="name">Platja de Žanjice</a> — ≈50 min de carretera panoràmica. Còdols (escarpines!), vistes a Mamula. Dinar al xiringuito.</div></li>
+        <li><span class="time">15:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=5170883614328628721" target="_blank" rel="noopener" class="name">Porto Montenegro (Tivat)</a> — passeig entre iots i copa de tarda.</div></li>
+        <li><span class="time">19:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=2402749889030866949" target="_blank" rel="noopener" class="name">Mirador de Sveti Stefan</a> — la postal, amb llum de posta. ≈15 min.</div></li>
+        <li><span class="time">20:45</span><div class="stop-body"><a href="https://maps.google.com/?cid=15325553490007822475" target="_blank" rel="noopener" class="name">Casc antic de Budva</a><span class="tag">Festa</span> — sopar i beach clubs sense hora límit. Conductor sobri o taxi (≈40 min, controls d'alcoholèmia habituals).</div></li>
+      </ul>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <span class="day-num" style="background:var(--d4)">4</span>
+        <div><span class="dow">Dissabte 25</span><h3>Ressaca i vol</h3></div>
+      </div>
+      <ul class="stops">
+        <li><span class="time">09:00</span><div class="stop-body"><span class="name">Prčanj</span> — últim bany (opcional), cafè doble, maletes, checkout. Sortida 10:15 màxim.</div></li>
+        <li><span class="time">10:45</span><div class="stop-body"><a href="https://www.google.com/maps/search/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" class="name">Aeroport de Tivat</a> — 20-25 min pel túnel de Vrmac. Cotxe a les 11:00 (dipòsit ple), vol a les 13:00.</div></li>
+      </ul>
+    </article>
+  </section>
+
+  <section>
+    <h2 class="sec-title">Notes pràctiques</h2>
+    <p class="sec-sub">Quatre coses per no endur-se sorpreses.</p>
+    <div class="notes-grid">
+      <div class="note"><h4>💵 Efectiu sempre a sobre</h4><p>Fortalesa, barca de Perast, entrada de l'església, pàrquings de platja — molta cosa és només cash.</p></div>
+      <div class="note"><h4>☀️ Calor de juliol</h4><p>Visites de poble al matí, banys al migdia/tarda, fortalesa al capvespre.</p></div>
+      <div class="note"><h4>🚕 Nit de Budva</h4><p>Conductor sobri o taxi de tornada (≈40 min). Controls d'alcoholèmia habituals a l'estiu.</p></div>
+      <div class="note"><h4>✂️ Descartat i per què</h4><p>Blue Cave i Mamula (només en barca), Budva de dia (només de nit), Plavi Horizonti dissabte (no hi ha temps amb el cotxe a les 11).</p></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Boka Kotorska · 22–25 juliol · fet amb 🗺️ per al grup<br>
+<span style="opacity:.7">Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" target="_blank" rel="noopener" style="color:inherit">Kallerna / Wikimedia Commons</a>, CC BY-SA 4.0</span></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map', {scrollWheelZoom:false}).setView([42.42, 18.70], 11);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19, attribution: '© OpenStreetMap, © CARTO'
+  }).addTo(map);
+
+  var stops = [
+    {n:'Prčanj (base)', c:[42.449,18.7539], d:'#e63946', t:'Dia 1 · 13:00 · banys a casa', u:'https://maps.google.com/?cid=6818736469209358801'},
+    {n:'Casc antic de Kotor', c:[42.4247,18.7712], d:'#e63946', t:'Dia 1 · 19:00 · sopar i copes', u:'https://maps.google.com/?cid=7213753815455049709'},
+    {n:'Perast', c:[42.4860,18.6983], d:'#e8893a', t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
+    {n:'Our Lady of the Rocks', c:[42.4868,18.6887], d:'#e8893a', t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
+    {n:'Fortalesa San Giovanni', c:[42.4221,18.7748], d:'#e8893a', t:'Dia 2 · 18:15 · posta de sol', u:'https://maps.google.com/?cid=13101188094826256396'},
+    {n:'Platja de Žanjice', c:[42.3947,18.5792], d:'#1f9e8f', t:'Dia 3 · 09:30 · bany i dinar', u:'https://maps.google.com/?cid=12517155045902395893'},
+    {n:'Porto Montenegro (Tivat)', c:[42.4351,18.6939], d:'#1f9e8f', t:'Dia 3 · 15:30 · copa entre iots', u:'https://maps.google.com/?cid=5170883614328628721'},
+    {n:'Mirador Sveti Stefan', c:[42.2581,18.8960], d:'#1f9e8f', t:'Dia 3 · 19:30 · la foto', u:'https://maps.google.com/?cid=2402749889030866949'},
+    {n:'Casc antic de Budva', c:[42.2778,18.8381], d:'#1f9e8f', t:'Dia 3 · 20:45 · FESTA', u:'https://maps.google.com/?cid=15325553490007822475'},
+    {n:'Aeroport de Tivat', c:[42.4047,18.7232], d:'#7b53b8', t:'Dia 4 · 11:00 · cotxe + vol 13:00', u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro'}
+  ];
+  var bounds = [];
+  stops.forEach(function(s){
+    var icon = L.divIcon({className:'', html:'<div style="width:20px;height:20px;border-radius:50%;background:'+s.d+';border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"></div>', iconSize:[20,20], iconAnchor:[10,10]});
+    L.marker(s.c, {icon:icon}).addTo(map).bindPopup(
+      '<div class="pop-title">'+s.n+'</div>'+
+      '<div class="pop-sub">'+s.t+'</div>'+
+      '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>'
+    );
+    bounds.push(s.c);
+  });
+  map.fitBounds(bounds, {padding:[50,50]});
+</script>
+</body>
+</html>
