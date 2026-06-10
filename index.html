@@ -60,6 +60,9 @@
     padding:8px 13px; border-radius:12px; backdrop-filter:blur(6px);
   }
   .fact b { font-weight:700; }
+  .fact-link { cursor:pointer; text-decoration:none; color:#fff; transition:background .15s, border-color .15s, transform .15s; }
+  .fact-link:hover { background:rgba(255,255,255,.2); border-color:rgba(255,255,255,.42); transform:translateY(-1px); }
+  .fact-hint { font-size:11px; opacity:.72; font-weight:600; margin-left:2px; }
 
   /* ---------- WRAP ---------- */
   .wrap { max-width:860px; margin:0 auto; padding:0 24px; }
@@ -157,6 +160,14 @@
   }
   .pop-link:hover { background:var(--sea-deep); }
 
+  /* ---------- Base (home) marker ---------- */
+  .base-pin { position:relative; width:28px; height:28px; }
+  .base-ring { position:absolute; left:50%; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; border-radius:50%; background:var(--d1); animation:basePulse 2.1s ease-out infinite; }
+  .base-dot { position:absolute; left:50%; top:50%; width:28px; height:28px; margin:-14px 0 0 -14px; border-radius:50%; background:var(--d1); border:3px solid #fff; box-shadow:0 2px 7px rgba(0,0,0,.4); display:grid; place-items:center; font-size:14px; line-height:1; }
+  @keyframes basePulse { 0%{ box-shadow:0 0 0 0 rgba(230,57,70,.55);} 70%{ box-shadow:0 0 0 16px rgba(230,57,70,0);} 100%{ box-shadow:0 0 0 0 rgba(230,57,70,0);} }
+  .base-pin.bounce { animation:baseBounce .65s ease; }
+  @keyframes baseBounce { 0%,100%{ transform:translateY(0);} 30%{ transform:translateY(-13px);} 60%{ transform:translateY(-5px);} }
+
   @media (max-width:560px){
     .hero { padding:40px 20px 34px; }
     .wrap { padding:0 16px; }
@@ -172,7 +183,7 @@
     <h1>Montenegro</h1>
     <p>Quatre dies per la badia de Kotor: mar, pobles de pedra, fortaleses al capvespre i una nit de festa a Budva.</p>
     <div class="facts">
-      <span class="fact">🏠 Base: <b>Prčanj</b></span>
+      <a class="fact fact-link" href="#map" id="baseChip">🏠 Base: <b>Prčanj</b> <span class="fact-hint">· veure al mapa ↓</span></a>
       <span class="fact">🚗 Cotxe <b>tot el viatge</b></span>
       <span class="fact">✈️ Tornada: <b>ds 25 · 13:00 (Tivat)</b></span>
     </div>
@@ -291,7 +302,7 @@
   }).addTo(map);
 
   var stops = [
-    {n:'Prčanj (base)', c:[42.449,18.7539], d:'#e63946', t:'Dia 1 · 13:00 · banys a casa', u:'https://maps.google.com/?cid=6818736469209358801'},
+    {n:'Prčanj (base)', c:[42.449,18.7539], d:'#e63946', t:'Dia 1 · 13:00 · banys a casa · el nostre allotjament', u:'https://maps.google.com/?cid=6818736469209358801', base:true},
     {n:'Casc antic de Kotor', c:[42.4247,18.7712], d:'#e63946', t:'Dia 1 · 19:00 · sopar i copes', u:'https://maps.google.com/?cid=7213753815455049709'},
     {n:'Perast', c:[42.4860,18.6983], d:'#e8893a', t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
     {n:'Our Lady of the Rocks', c:[42.4868,18.6887], d:'#e8893a', t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
@@ -302,17 +313,35 @@
     {n:'Casc antic de Budva', c:[42.2778,18.8381], d:'#1f9e8f', t:'Dia 3 · 20:45 · FESTA', u:'https://maps.google.com/?cid=15325553490007822475'},
     {n:'Aeroport de Tivat', c:[42.4047,18.7232], d:'#7b53b8', t:'Dia 4 · 11:00 · cotxe + vol 13:00', u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro'}
   ];
-  var bounds = [];
+  var bounds = [], baseMarker = null;
   stops.forEach(function(s){
-    var icon = L.divIcon({className:'', html:'<div style="width:20px;height:20px;border-radius:50%;background:'+s.d+';border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"></div>', iconSize:[20,20], iconAnchor:[10,10]});
-    L.marker(s.c, {icon:icon}).addTo(map).bindPopup(
+    var popup =
       '<div class="pop-title">'+s.n+'</div>'+
       '<div class="pop-sub">'+s.t+'</div>'+
-      '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>'
-    );
+      '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>';
+    if (s.base) {
+      var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot">🏠</span></div>', iconSize:[28,28], iconAnchor:[14,14]});
+      baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).addTo(map).bindPopup(popup);
+    } else {
+      var icon = L.divIcon({className:'', html:'<div style="width:20px;height:20px;border-radius:50%;background:'+s.d+';border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)"></div>', iconSize:[20,20], iconAnchor:[10,10]});
+      L.marker(s.c, {icon:icon}).addTo(map).bindPopup(popup);
+    }
     bounds.push(s.c);
   });
   map.fitBounds(bounds, {padding:[50,50]});
+
+  function bounceBase(){
+    if(!baseMarker || !baseMarker._icon) return;
+    var el = baseMarker._icon.querySelector('.base-pin');
+    if(!el) return;
+    el.classList.remove('bounce'); void el.offsetWidth; el.classList.add('bounce');
+  }
+  var baseChip = document.getElementById('baseChip');
+  if (baseChip) {
+    baseChip.addEventListener('click', function(){
+      setTimeout(function(){ if(baseMarker){ baseMarker.openPopup(); bounceBase(); } }, 550);
+    });
+  }
 </script>
 </body>
 </html>
