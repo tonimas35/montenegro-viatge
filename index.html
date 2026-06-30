@@ -10,6 +10,7 @@
     --ink:#2a3742; --muted:#6c7783; --line:#e8ebee;
     --sea:#1d5e84; --sea-deep:#16486a;
     --d1:#e05a63; --d2:#e0934f; --d3:#2f9e8f; --d4:#7e63b6;
+    --base:#12354f;
     --bg:#f6f7f8;
     --shadow:0 1px 2px rgba(40,60,80,.04), 0 3px 12px rgba(40,60,80,.05);
     --radius:14px;
@@ -112,9 +113,9 @@
 
   /* ---------- Base (home) marker ---------- */
   .base-pin { position:relative; width:28px; height:28px; }
-  .base-ring { position:absolute; left:50%; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; border-radius:50%; background:var(--d1); animation:basePulse 2.1s ease-out infinite; }
-  .base-dot { position:absolute; left:50%; top:50%; width:28px; height:28px; margin:-14px 0 0 -14px; border-radius:50%; background:var(--d1); border:3px solid #fff; box-shadow:0 2px 7px rgba(0,0,0,.4); display:grid; place-items:center; font-size:14px; line-height:1; }
-  @keyframes basePulse { 0%{ box-shadow:0 0 0 0 rgba(224,90,99,.5);} 70%{ box-shadow:0 0 0 16px rgba(224,90,99,0);} 100%{ box-shadow:0 0 0 0 rgba(224,90,99,0);} }
+  .base-ring { position:absolute; left:50%; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; border-radius:50%; background:var(--base); animation:basePulse 2.1s ease-out infinite; }
+  .base-dot { position:absolute; left:50%; top:50%; width:28px; height:28px; margin:-14px 0 0 -14px; border-radius:50%; background:var(--base); border:3px solid #fff; box-shadow:0 2px 7px rgba(0,0,0,.4); display:grid; place-items:center; line-height:1; }
+  @keyframes basePulse { 0%{ box-shadow:0 0 0 0 rgba(18,53,79,.5);} 70%{ box-shadow:0 0 0 16px rgba(18,53,79,0);} 100%{ box-shadow:0 0 0 0 rgba(18,53,79,0);} }
   .base-pin.bounce { animation:baseBounce .65s ease; }
   @keyframes baseBounce { 0%,100%{ transform:translateY(0);} 30%{ transform:translateY(-13px);} 60%{ transform:translateY(-5px);} }
 
@@ -270,7 +271,7 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
       '<div class="pop-sub">'+s.t+'</div>'+
       '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>';
     if (s.base) {
-      var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot">🏠</span></div>', iconSize:[28,28], iconAnchor:[14,14]});
+      var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span></div>', iconSize:[28,28], iconAnchor:[14,14]});
       baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).bindPopup(popup);
     } else {
       var col = DAY_COLORS[s.day];
