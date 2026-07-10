@@ -102,7 +102,12 @@
   .subs li { margin:2px 0; }
   .options { margin:8px 0 2px; padding:0; list-style:none; counter-reset:opt; display:grid; gap:6px; }
   .options li { position:relative; padding:8px 11px 8px 34px; background:#f4f6f8; border:1px solid var(--line); border-radius:9px; font-size:13.5px; }
-  .options li::before { counter-increment:opt; content:counter(opt); position:absolute; left:9px; top:50%; transform:translateY(-50%); width:19px; height:19px; border-radius:50%; background:var(--sea); color:#fff; font-size:11px; font-weight:700; display:grid; place-items:center; }
+  .options li::before { counter-increment:opt; content:counter(opt); position:absolute; left:9px; top:7px; width:19px; height:19px; border-radius:50%; background:var(--sea); color:#fff; font-size:11px; font-weight:700; display:grid; place-items:center; }
+  .beaches { list-style:none; margin:7px 0 1px; padding:0; display:grid; gap:5px; }
+  .beaches > li { font-size:13px; color:var(--muted); font-weight:500; }
+  .beaches a { color:var(--sea); font-weight:600; text-decoration:none; border-bottom:1px solid rgba(29,94,132,.25); }
+  .beaches a:hover { border-bottom-color:var(--sea); }
+  .beaches .pk a { font-weight:500; color:var(--muted); border-bottom-color:rgba(108,119,131,.3); }
   .tag { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; padding:2px 7px; border-radius:5px; margin-left:5px; background:#fbe9eb; color:var(--d1); vertical-align:middle; }
 
   footer { text-align:center; color:var(--muted); font-size:12.5px; padding:36px 24px 44px; }
@@ -192,7 +197,12 @@
           </div></li>
           <li><span class="time">Tarda</span><div class="stop-body"><span class="name">Després de dinar, tria una opció:</span>
             <ol class="options">
-              <li>Una de les platges que hem vist a prop de Budva</li>
+              <li><b>Platges top a prop de Budva</b>
+                <ul class="beaches">
+                  <li><a href="https://maps.app.goo.gl/6bawuCDNh3avGBm98" target="_blank" rel="noopener">Mogren 2 Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/GwVVJ1MUwnRg7DEi8" target="_blank" rel="noopener">parking gratis</a></span></li>
+                  <li><a href="https://maps.app.goo.gl/RgyTdirQ71E6EVVH6" target="_blank" rel="noopener">Jaz Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/mvG7D7Q6unuZwQ7N6" target="_blank" rel="noopener">parking gratis</a></span></li>
+                </ul>
+              </li>
               <li>Anar fins a l'illa de Sveti Nikola</li>
               <li>Anar cap a l'apartament</li>
             </ol>
