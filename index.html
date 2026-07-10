@@ -98,6 +98,11 @@
   .stop-body a { color:var(--sea); font-weight:600; text-decoration:none; border-bottom:1px solid rgba(29,94,132,.25); }
   .stop-body a:hover { border-bottom-color:var(--sea); }
   .stop-body .name { font-weight:700; color:var(--ink); }
+  .subs { margin:6px 0 2px; padding-left:16px; color:var(--muted); font-size:13px; }
+  .subs li { margin:2px 0; }
+  .options { margin:8px 0 2px; padding:0; list-style:none; counter-reset:opt; display:grid; gap:6px; }
+  .options li { position:relative; padding:8px 11px 8px 34px; background:#f4f6f8; border:1px solid var(--line); border-radius:9px; font-size:13.5px; }
+  .options li::before { counter-increment:opt; content:counter(opt); position:absolute; left:9px; top:50%; transform:translateY(-50%); width:19px; height:19px; border-radius:50%; background:var(--sea); color:#fff; font-size:11px; font-weight:700; display:grid; place-items:center; }
   .tag { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; padding:2px 7px; border-radius:5px; margin-left:5px; background:#fbe9eb; color:var(--d1); vertical-align:middle; }
 
   footer { text-align:center; color:var(--muted); font-size:12.5px; padding:36px 24px 44px; }
@@ -170,13 +175,30 @@
       <article class="day" data-day="1">
         <div class="day-head">
           <span class="day-num" style="background:var(--d1)">1</span>
-          <div class="day-titles"><span class="dow">Dimecres 22</span><h3>Arribada, fortalesa i Kotor</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/Pr%C4%8Danj,+Montenegro/San+Giovanni+Fortress,+Kotor/Kotor+Old+Town,+Montenegro" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <div class="day-titles"><span class="dow">Trasllat de casa</span><h3>Budva</h3></div>
+          <a class="day-route" href="https://www.google.com/maps/dir/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener">Ruta al mapa ↗</a>
         </div>
         <ul class="stops">
-          <li><span class="time">13:00</span><div class="stop-body"><a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Prčanj</a>, instal·lació, compra i bany a les plataformes de pedra. Descans a l'hora forta de calor.</div></li>
-          <li><span class="time">18:15</span><div class="stop-body"><a href="https://maps.google.com/?cid=13101188094826256396" target="_blank" rel="noopener" class="name">Fortalesa de San Giovanni</a>, 1.350 graons, dalt a la posta (≈20:30). 15 € efectiu/persona, aigua i bon calçat. S'hi puja des de dins del casc antic.</div></li>
-          <li><span class="time">21:00</span><div class="stop-body"><a href="https://maps.google.com/?cid=7213753815455049709" target="_blank" rel="noopener" class="name">Casc antic de Kotor</a>, ja ets a baix: sopar i copes dins les muralles.</div></li>
+          <li><span class="time">11:00</span><div class="stop-body"><span class="name">Checkout Casa llac</span>, sortida abans de les 11h com a molt tard.</div></li>
+          <li><span class="time">~12:00</span><div class="stop-body"><a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, volta pel centre i dinar. Per veure:
+            <ul class="subs">
+              <li>Ciutat Vella de Budva</li>
+              <li>Passeig marítim</li>
+              <li>Església de Sant Joan</li>
+              <li>Ciutadella</li>
+              <li>Estàtua de la Ballarina</li>
+              <li>Platja de Mogren</li>
+            </ul>
+          </div></li>
+          <li><span class="time">Tarda</span><div class="stop-body"><span class="name">Després de dinar, tria una opció:</span>
+            <ol class="options">
+              <li>Una de les platges que hem vist a prop de Budva</li>
+              <li>Anar fins a l'illa de Sveti Nikola</li>
+              <li>Anar cap a l'apartament</li>
+            </ol>
+          </div></li>
+          <li><span class="time">Compra</span><div class="stop-body"><a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, parada per fer la compra de camí a l'apartament.</div></li>
+          <li><span class="time">15:00+</span><div class="stop-body"><a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Checkin Casa Costa</a> (Prčanj), a partir de les 15h. Hi arribarem més tard, és clar.</div></li>
         </ul>
       </article>
 
@@ -242,9 +264,9 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
   var PRCANJ = [42.449,18.7539];
 
   var stops = [
-    {n:'Prčanj (base)', c:PRCANJ, day:1, t:'Base · el nostre allotjament', u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7', base:true},
-    {n:'Fortalesa San Giovanni', c:[42.4221,18.7748], day:1, t:'Dia 1 · 18:15 · posta de sol', u:'https://maps.google.com/?cid=13101188094826256396'},
-    {n:'Casc antic de Kotor', c:[42.4247,18.7712], day:1, t:'Dia 1 · 21:00 · sopar i copes', u:'https://maps.google.com/?cid=7213753815455049709'},
+    {n:'Prčanj · Casa Costa', c:PRCANJ, day:1, t:'Casa Costa · el nostre allotjament', u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7', base:true},
+    {n:'Budva (centre)', c:[42.2778,18.8381], day:1, t:'Dia 1 · ~12:00 · volta i dinar', u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro'},
+    {n:'iDEA super', c:[42.3865702,18.7416431], day:1, t:'Dia 1 · compra de camí a casa', u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA'},
     {n:'Perast', c:[42.4860,18.6983], day:2, t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
     {n:'Our Lady of the Rocks', c:[42.4868,18.6887], day:2, t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
     {n:'Platja de Žanjice', c:[42.3947,18.5792], day:3, t:'Dia 3 · 09:30 · bany i dinar', u:'https://maps.google.com/?cid=12517155045902395893'},
@@ -256,7 +278,7 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
 
   // ruta ordenada de cada dia (surt de la base i, si escau, hi torna)
   var dayPaths = {
-    1: [PRCANJ, [42.4221,18.7748], [42.4247,18.7712]],
+    1: [[42.2778,18.8381], [42.3865702,18.7416431], PRCANJ],
     2: [PRCANJ, [42.4860,18.6983], [42.4868,18.6887], PRCANJ],
     3: [PRCANJ, [42.3947,18.5792], [42.4351,18.6939], [42.2581,18.8960], [42.2778,18.8381]],
     4: [PRCANJ, [42.4047,18.7232]]
