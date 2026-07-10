@@ -90,6 +90,12 @@
     padding:7px 11px; text-decoration:none; transition:background .15s, border-color .15s;
   }
   .day-route:hover { background:#e3ecf3; border-color:#cad8e2; }
+  .day-body { display:flex; flex-wrap:wrap; align-items:flex-start; }
+  .day-body > .stops { flex:2 1 330px; }
+  .day-photos { flex:1 1 230px; max-width:460px; display:grid; gap:10px; padding:12px 18px 18px; }
+  .day-photos figure { margin:0; position:relative; border-radius:11px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); }
+  .day-photos img { display:block; width:100%; height:170px; object-fit:cover; }
+  .day-photos figcaption { position:absolute; left:0; right:0; bottom:0; padding:16px 11px 7px; font-size:12px; font-weight:600; color:#fff; background:linear-gradient(to top, rgba(0,0,0,.62), transparent); }
   .stops { list-style:none; margin:0; padding:8px 18px 16px; }
   .stops li { display:flex; gap:13px; padding:10px 0; border-bottom:1px solid #f1f3f5; }
   .stops li:last-child { border-bottom:0; }
@@ -183,6 +189,7 @@
           <div class="day-titles"><span class="dow">Trasllat de casa</span><h3>Budva</h3></div>
           <a class="day-route" href="https://www.google.com/maps/dir/42.3433263,19.0528488/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener">Ruta al mapa ↗</a>
         </div>
+        <div class="day-body">
         <ul class="stops">
           <li><span class="time">11:00</span><div class="stop-body"><a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Checkout Casa llac</a>, sortida abans de les 11h com a molt tard.</div></li>
           <li><span class="time">~12:00</span><div class="stop-body"><a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, volta pel centre i dinar. Per veure:
@@ -210,6 +217,12 @@
           <li><span class="time">Compra</span><div class="stop-body"><a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, parada per fer la compra de camí a l'apartament.</div></li>
           <li><span class="time">15:00+</span><div class="stop-body"><a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Checkin Casa Costa</a> (Prčanj), a partir de les 15h. Hi arribarem més tard, és clar.</div></li>
         </ul>
+        <div class="day-photos">
+          <figure><img src="budva.jpg" alt="Budva" loading="lazy"><figcaption>Budva</figcaption></figure>
+          <figure><img src="jaz.jpg" alt="Jaz Beach" loading="lazy"><figcaption>Jaz Beach</figcaption></figure>
+          <figure><img src="svetinikola.jpg" alt="Illa de Sveti Nikola" loading="lazy"><figcaption>Illa de Sveti Nikola</figcaption></figure>
+        </div>
+        </div>
       </article>
 
       <article class="day" data-day="2">
@@ -258,7 +271,7 @@
 </div>
 
 <footer>Boka Kotorska · 22–25 juliol · fet per al grup<br>
-Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" target="_blank" rel="noopener">Kallerna / Wikimedia Commons</a>, CC BY-SA 4.0</footer>
+Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
