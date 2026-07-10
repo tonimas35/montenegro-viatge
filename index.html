@@ -33,22 +33,15 @@
       url('hero.jpg') center 35%/cover no-repeat;
   }
   .hero-inner { width:var(--content); margin:0 auto; }
+  .langs { position:absolute; top:16px; right:16px; z-index:4; display:flex; gap:4px; }
+  .lang-btn { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); color:#fff; font-family:inherit; font-size:12px; font-weight:700; letter-spacing:.02em; padding:6px 10px; border-radius:8px; cursor:pointer; transition:background .15s, color .15s; }
+  .lang-btn:hover { background:rgba(255,255,255,.3); }
+  .lang-btn.active { background:#fff; color:var(--sea); border-color:#fff; }
   .kicker { font-size:13px; font-weight:600; letter-spacing:.04em; opacity:.9; }
   .hero h1 {
     font-weight:700; font-size:clamp(30px, 5vw, 46px); line-height:1.06;
     margin:10px 0 8px; letter-spacing:-.01em;
   }
-  .hero p { margin:0; font-size:16px; max-width:600px; color:rgba(255,255,255,.9); }
-  .facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
-  .fact {
-    display:inline-flex; align-items:center; gap:7px; font-size:13.5px; font-weight:500;
-    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2);
-    padding:7px 12px; border-radius:10px;
-  }
-  .fact b { font-weight:700; }
-  .fact-link { cursor:pointer; text-decoration:none; color:#fff; transition:background .15s, border-color .15s; }
-  .fact-link:hover { background:rgba(255,255,255,.24); border-color:rgba(255,255,255,.4); }
-  .fact-hint { font-size:11.5px; opacity:.7; font-weight:600; }
 
   /* ---------- LAYOUT ---------- */
   .wrap { width:var(--content); margin:0 auto; padding:0; }
@@ -153,8 +146,13 @@
 <body>
 
 <header class="hero">
+  <div class="langs">
+    <button type="button" class="lang-btn" data-lang="ca">CA</button>
+    <button type="button" class="lang-btn" data-lang="es">ES</button>
+    <button type="button" class="lang-btn" data-lang="en">EN</button>
+  </div>
   <div class="hero-inner">
-    <span class="kicker">Boka Kotorska · 22–25 juliol</span>
+    <span class="kicker" data-i18n="kicker">Boka Kotorska · 22–25 juliol</span>
     <h1>Montenegro</h1>
   </div>
 </header>
@@ -162,37 +160,37 @@
 <div class="wrap">
 
   <section id="map-section">
-    <h2 class="sec-title">El mapa</h2>
-    <p class="sec-sub">Clica un <b>dia</b> a la llegenda per veure'l sol amb la seva ruta; clica un <b>punt</b> per obrir-lo a Google Maps.</p>
+    <h2 class="sec-title" data-i18n="mapTitle">El mapa</h2>
+    <p class="sec-sub" data-i18n="mapSub">Clica un <b>dia</b> a la llegenda per veure'l sol amb la seva ruta; clica un <b>punt</b> per obrir-lo a Google Maps.</p>
     <div class="map-card">
       <div id="map"></div>
       <div class="legend">
-        <span class="legend-title">Mostra</span>
-        <button type="button" class="leg" data-day="1"><i class="dot" style="background:var(--d1)"></i> Dia 1 · dc 22</button>
-        <button type="button" class="leg" data-day="2"><i class="dot" style="background:var(--d2)"></i> Dia 2 · dj 23</button>
-        <button type="button" class="leg" data-day="3"><i class="dot" style="background:var(--d3)"></i> Dia 3 · dv 24</button>
-        <button type="button" class="leg" data-day="4"><i class="dot" style="background:var(--d4)"></i> Dia 4 · ds 25</button>
-        <button type="button" class="leg leg-reset" data-day="0">Tots els dies</button>
+        <span class="legend-title" data-i18n="legShow">Mostra</span>
+        <button type="button" class="leg" data-day="1" data-i18n="legD1"><i class="dot" style="background:var(--d1)"></i> Dia 1 · dc 22</button>
+        <button type="button" class="leg" data-day="2" data-i18n="legD2"><i class="dot" style="background:var(--d2)"></i> Dia 2 · dj 23</button>
+        <button type="button" class="leg" data-day="3" data-i18n="legD3"><i class="dot" style="background:var(--d3)"></i> Dia 3 · dv 24</button>
+        <button type="button" class="leg" data-day="4" data-i18n="legD4"><i class="dot" style="background:var(--d4)"></i> Dia 4 · ds 25</button>
+        <button type="button" class="leg leg-reset" data-day="0" data-i18n="legAll">Tots els dies</button>
       </div>
     </div>
   </section>
 
   <section>
-    <h2 class="sec-title">Itinerari dia a dia</h2>
-    <p class="sec-sub">Horaris pensats per la calor de juliol: pobles al matí, banys al migdia, fortaleses al capvespre.</p>
+    <h2 class="sec-title" data-i18n="itinTitle">Itinerari dia a dia</h2>
+    <p class="sec-sub" data-i18n="itinSub">Horaris pensats per la calor de juliol: pobles al matí, banys al migdia, fortaleses al capvespre.</p>
 
     <div class="days">
 
       <article class="day" data-day="1">
         <div class="day-head">
           <span class="day-num" style="background:var(--d1)">1</span>
-          <div class="day-titles"><span class="dow">Trasllat de casa</span><h3>Budva</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/42.3433263,19.0528488/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <div class="day-titles"><span class="dow" data-i18n="d1dow">Trasllat de casa</span><h3 data-i18n="d1h3">Budva</h3></div>
+          <a class="day-route" href="https://www.google.com/maps/dir/42.3433263,19.0528488/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener" data-i18n="route">Ruta al mapa ↗</a>
         </div>
         <div class="day-body">
         <ul class="stops">
-          <li><span class="time">11:00</span><div class="stop-body"><a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Checkout Casa llac</a>, sortida abans de les 11h com a molt tard.</div></li>
-          <li><span class="time">~12:00</span><div class="stop-body"><a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, volta pel centre i dinar. Per veure:
+          <li><span class="time">11:00</span><div class="stop-body" data-i18n="d1s1"><a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Checkout Casa llac</a>, sortida abans de les 11h com a molt tard.</div></li>
+          <li><span class="time">~12:00</span><div class="stop-body" data-i18n="d1s2"><a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, volta pel centre i dinar. Per veure:
             <ul class="subs">
               <li>Ciutat Vella de Budva</li>
               <li>Passeig marítim</li>
@@ -202,7 +200,7 @@
               <li>Platja de Mogren</li>
             </ul>
           </div></li>
-          <li><span class="time">Tarda</span><div class="stop-body"><span class="name">Després de dinar, tria una opció:</span>
+          <li><span class="time" data-i18n="tTarda">Tarda</span><div class="stop-body" data-i18n="d1s3"><span class="name">Després de dinar, tria una opció:</span>
             <ol class="options">
               <li><b>Platges top a prop de Budva</b>
                 <ul class="beaches">
@@ -214,14 +212,14 @@
               <li>Anar cap a l'apartament</li>
             </ol>
           </div></li>
-          <li><span class="time">Compra</span><div class="stop-body"><a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, parada per fer la compra de camí a l'apartament.</div></li>
-          <li><span class="time">15:00+</span><div class="stop-body"><a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Checkin Casa Costa</a> (Prčanj), a partir de les 15h. Hi arribarem més tard, és clar.</div></li>
+          <li><span class="time" data-i18n="tCompra">Compra</span><div class="stop-body" data-i18n="d1s4"><a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, parada per fer la compra de camí a l'apartament.</div></li>
+          <li><span class="time">15:00+</span><div class="stop-body" data-i18n="d1s5"><a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Checkin Casa Costa</a> (Prčanj), a partir de les 15h. Hi arribarem més tard, és clar.</div></li>
         </ul>
         <div class="day-photos">
           <figure><img src="budva.jpg" alt="Budva" loading="lazy"><figcaption>Budva</figcaption></figure>
           <figure><img src="mogren.jpg" alt="Mogren 2 Beach" loading="lazy"><figcaption>Mogren 2 Beach</figcaption></figure>
           <figure><img src="jaz.jpg" alt="Jaz Beach" loading="lazy"><figcaption>Jaz Beach</figcaption></figure>
-          <figure><img src="svetinikola.jpg" alt="Illa de Sveti Nikola" loading="lazy"><figcaption>Illa de Sveti Nikola</figcaption></figure>
+          <figure><img src="svetinikola.jpg" alt="Sveti Nikola" loading="lazy"><figcaption data-i18n="capSveti">Illa de Sveti Nikola</figcaption></figure>
         </div>
         </div>
       </article>
@@ -229,40 +227,40 @@
       <article class="day" data-day="2">
         <div class="day-head">
           <span class="day-num" style="background:var(--d2)">2</span>
-          <div class="day-titles"><span class="dow">Dijous 23</span><h3>La badia, sense presses</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/Perast,+Montenegro/Our+Lady+of+the+Rocks/Pr%C4%8Danj,+Montenegro" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <div class="day-titles"><span class="dow" data-i18n="d2dow">Dijous 23</span><h3 data-i18n="d2h3">La badia, sense presses</h3></div>
+          <a class="day-route" href="https://www.google.com/maps/dir/Perast,+Montenegro/Our+Lady+of+the+Rocks/Pr%C4%8Danj,+Montenegro" target="_blank" rel="noopener" data-i18n="route">Ruta al mapa ↗</a>
         </div>
         <ul class="stops">
-          <li><span class="time">08:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=8280534372461368745" target="_blank" rel="noopener" class="name">Perast</a>, abans de les 9h per aparcar. Esmorzar al moll.</div></li>
-          <li><span class="time">10:00</span><div class="stop-body"><a href="https://maps.google.com/?cid=5400818497840744618" target="_blank" rel="noopener" class="name">Our Lady of the Rocks</a>, barca des de Perast (~20 €, efectiu; donatiu de 2-3 € a l'església, espatlles cobertes). Després caiac o paddle per la badia.</div></li>
-          <li><span class="time">14:00</span><div class="stop-body"><span class="name">Prčanj</span>, dinar, bany i descans a casa.</div></li>
-          <li><span class="time">Vespre</span><div class="stop-body"><span class="name">Vespre tranquil a Prčanj</span>, sopar relaxat i copa a prop de casa, sense cotxe. A recuperar forces per la nit de festa de demà.</div></li>
+          <li><span class="time">08:30</span><div class="stop-body" data-i18n="d2s1"><a href="https://maps.google.com/?cid=8280534372461368745" target="_blank" rel="noopener" class="name">Perast</a>, abans de les 9h per aparcar. Esmorzar al moll.</div></li>
+          <li><span class="time">10:00</span><div class="stop-body" data-i18n="d2s2"><a href="https://maps.google.com/?cid=5400818497840744618" target="_blank" rel="noopener" class="name">Our Lady of the Rocks</a>, barca des de Perast (~20 €, efectiu; donatiu de 2-3 € a l'església, espatlles cobertes). Després caiac o paddle per la badia.</div></li>
+          <li><span class="time">14:00</span><div class="stop-body" data-i18n="d2s3"><span class="name">Prčanj</span>, dinar, bany i descans a casa.</div></li>
+          <li><span class="time" data-i18n="tVespre">Vespre</span><div class="stop-body" data-i18n="d2s4"><span class="name">Vespre tranquil a Prčanj</span>, sopar relaxat i copa a prop de casa, sense cotxe. A recuperar forces per la nit de festa de demà.</div></li>
         </ul>
       </article>
 
       <article class="day" data-day="3">
         <div class="day-head">
           <span class="day-num" style="background:var(--d3)">3</span>
-          <div class="day-titles"><span class="dow">Divendres 24</span><h3>Luštica, glamur i festa</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/%C5%BDanjice+Beach,+Montenegro/Porto+Montenegro,+Tivat/Sveti+Stefan+view+point/Old+Town,+Budva" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <div class="day-titles"><span class="dow" data-i18n="d3dow">Divendres 24</span><h3 data-i18n="d3h3">Luštica, glamur i festa</h3></div>
+          <a class="day-route" href="https://www.google.com/maps/dir/%C5%BDanjice+Beach,+Montenegro/Porto+Montenegro,+Tivat/Sveti+Stefan+view+point/Old+Town,+Budva" target="_blank" rel="noopener" data-i18n="route">Ruta al mapa ↗</a>
         </div>
         <ul class="stops">
-          <li><span class="time">09:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=12517155045902395893" target="_blank" rel="noopener" class="name">Platja de Žanjice</a>, ≈50 min de carretera panoràmica. Còdols (escarpines!), vistes a Mamula. Dinar al xiringuito.</div></li>
-          <li><span class="time">15:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=5170883614328628721" target="_blank" rel="noopener" class="name">Porto Montenegro (Tivat)</a>, passeig entre iots i copa de tarda.</div></li>
-          <li><span class="time">19:30</span><div class="stop-body"><a href="https://maps.google.com/?cid=2402749889030866949" target="_blank" rel="noopener" class="name">Mirador de Sveti Stefan</a>, la postal, amb llum de posta. ≈15 min.</div></li>
-          <li><span class="time">20:45</span><div class="stop-body"><a href="https://maps.google.com/?cid=15325553490007822475" target="_blank" rel="noopener" class="name">Casc antic de Budva</a><span class="tag">Festa</span> sopar i beach clubs sense hora límit. Conductor sobri o taxi (≈40 min, controls d'alcoholèmia habituals).</div></li>
+          <li><span class="time">09:30</span><div class="stop-body" data-i18n="d3s1"><a href="https://maps.google.com/?cid=12517155045902395893" target="_blank" rel="noopener" class="name">Platja de Žanjice</a>, ≈50 min de carretera panoràmica. Còdols (escarpines!), vistes a Mamula. Dinar al xiringuito.</div></li>
+          <li><span class="time">15:30</span><div class="stop-body" data-i18n="d3s2"><a href="https://maps.google.com/?cid=5170883614328628721" target="_blank" rel="noopener" class="name">Porto Montenegro (Tivat)</a>, passeig entre iots i copa de tarda.</div></li>
+          <li><span class="time">19:30</span><div class="stop-body" data-i18n="d3s3"><a href="https://maps.google.com/?cid=2402749889030866949" target="_blank" rel="noopener" class="name">Mirador de Sveti Stefan</a>, la postal, amb llum de posta. ≈15 min.</div></li>
+          <li><span class="time">20:45</span><div class="stop-body" data-i18n="d3s4"><a href="https://maps.google.com/?cid=15325553490007822475" target="_blank" rel="noopener" class="name">Casc antic de Budva</a><span class="tag">Festa</span> sopar i beach clubs sense hora límit. Conductor sobri o taxi (≈40 min, controls d'alcoholèmia habituals).</div></li>
         </ul>
       </article>
 
       <article class="day" data-day="4">
         <div class="day-head">
           <span class="day-num" style="background:var(--d4)">4</span>
-          <div class="day-titles"><span class="dow">Dissabte 25</span><h3>Ressaca i vol</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/Pr%C4%8Danj,+Montenegro/Tivat+Airport,+Montenegro" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <div class="day-titles"><span class="dow" data-i18n="d4dow">Dissabte 25</span><h3 data-i18n="d4h3">Ressaca i vol</h3></div>
+          <a class="day-route" href="https://www.google.com/maps/dir/Pr%C4%8Danj,+Montenegro/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" data-i18n="route">Ruta al mapa ↗</a>
         </div>
         <ul class="stops">
-          <li><span class="time">09:00</span><div class="stop-body"><span class="name">Prčanj</span>, últim bany (opcional), cafè doble, maletes, checkout. Sortida 10:15 màxim.</div></li>
-          <li><span class="time">10:45</span><div class="stop-body"><a href="https://www.google.com/maps/search/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" class="name">Aeroport de Tivat</a>, 20-25 min pel túnel de Vrmac. Cotxe a les 11:00 (dipòsit ple), vol a les 13:00.</div></li>
+          <li><span class="time">09:00</span><div class="stop-body" data-i18n="d4s1"><span class="name">Prčanj</span>, últim bany (opcional), cafè doble, maletes, checkout. Sortida 10:15 màxim.</div></li>
+          <li><span class="time">10:45</span><div class="stop-body" data-i18n="d4s2"><a href="https://www.google.com/maps/search/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" class="name">Aeroport de Tivat</a>, 20-25 min pel túnel de Vrmac. Cotxe a les 11:00 (dipòsit ple), vol a les 13:00.</div></li>
         </ul>
       </article>
 
@@ -271,11 +269,122 @@
 
 </div>
 
-<footer>Boka Kotorska · 22–25 juliol · fet per al grup<br>
+<footer data-i18n="footer">Boka Kotorska · 22–25 juliol · fet per al grup<br>
 Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+  /* ---------- language ---------- */
+  var INIT_LANG = 'ca';
+  try { INIT_LANG = localStorage.getItem('mnt_lang') || 'ca'; } catch(e){}
+  if (['ca','es','en'].indexOf(INIT_LANG) < 0) INIT_LANG = 'ca';
+
+  var OPENMAPS = { ca:'Obrir a Google Maps ↗', es:'Abrir en Google Maps ↗', en:'Open in Google Maps ↗' };
+
+  var I18N = {
+    es: {
+      kicker: "Boka Kotorska · 22–25 julio",
+      mapTitle: "El mapa",
+      mapSub: "Haz clic en un <b>día</b> de la leyenda para verlo solo con su ruta; haz clic en un <b>punto</b> para abrirlo en Google Maps.",
+      legShow: "Mostrar",
+      legD1: '<i class="dot" style="background:var(--d1)"></i> Día 1 · mié 22',
+      legD2: '<i class="dot" style="background:var(--d2)"></i> Día 2 · jue 23',
+      legD3: '<i class="dot" style="background:var(--d3)"></i> Día 3 · vie 24',
+      legD4: '<i class="dot" style="background:var(--d4)"></i> Día 4 · sáb 25',
+      legAll: "Todos los días",
+      itinTitle: "Itinerario día a día",
+      itinSub: "Horarios pensados para el calor de julio: pueblos por la mañana, baños al mediodía, fortalezas al atardecer.",
+      route: "Ver ruta en el mapa ↗",
+      d1dow: "Cambio de casa",
+      d1h3: "Budva",
+      d1s1: '<a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Checkout Casa llac</a>, salida antes de las 11h como muy tarde.',
+      d1s2: '<a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, vuelta por el centro y comer. Para ver:<ul class="subs"><li>Ciudad Vieja de Budva</li><li>Paseo marítimo</li><li>Iglesia de San Juan</li><li>Ciudadela</li><li>Estatua de la Bailarina</li><li>Playa de Mogren</li></ul>',
+      d1s3: '<span class="name">Después de comer, elige una opción:</span><ol class="options"><li><b>Playas top cerca de Budva</b><ul class="beaches"><li><a href="https://maps.app.goo.gl/6bawuCDNh3avGBm98" target="_blank" rel="noopener">Mogren 2 Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/GwVVJ1MUwnRg7DEi8" target="_blank" rel="noopener">parking gratis</a></span></li><li><a href="https://maps.app.goo.gl/RgyTdirQ71E6EVVH6" target="_blank" rel="noopener">Jaz Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/mvG7D7Q6unuZwQ7N6" target="_blank" rel="noopener">parking gratis</a></span></li></ul></li><li>Ir hasta la isla de Sveti Nikola</li><li>Ir hacia el apartamento</li></ol>',
+      d1s4: '<a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, parada para la compra de camino al apartamento.',
+      d1s5: '<a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Checkin Casa Costa</a> (Prčanj), a partir de las 15h. Llegaremos más tarde, claro.',
+      tTarda: "Tarde", tCompra: "Compra", tVespre: "Noche",
+      d2dow: "Jueves 23",
+      d2h3: "La bahía, sin prisas",
+      d2s1: '<a href="https://maps.google.com/?cid=8280534372461368745" target="_blank" rel="noopener" class="name">Perast</a>, antes de las 9h para aparcar. Desayunar en el muelle.',
+      d2s2: '<a href="https://maps.google.com/?cid=5400818497840744618" target="_blank" rel="noopener" class="name">Our Lady of the Rocks</a>, barca desde Perast (~20 €, efectivo; donativo de 2-3 € en la iglesia, hombros cubiertos). Después kayak o paddle por la bahía.',
+      d2s3: '<span class="name">Prčanj</span>, comida, baño y descanso en casa.',
+      d2s4: '<span class="name">Noche tranquila en Prčanj</span>, cena relajada y copa cerca de casa, sin coche. A recuperar fuerzas para la fiesta de mañana.',
+      d3dow: "Viernes 24",
+      d3h3: "Luštica, glamur y fiesta",
+      d3s1: '<a href="https://maps.google.com/?cid=12517155045902395893" target="_blank" rel="noopener" class="name">Playa de Žanjice</a>, ≈50 min de carretera panorámica. Cantos rodados (¡escarpines!), vistas a Mamula. Comer en el chiringuito.',
+      d3s2: '<a href="https://maps.google.com/?cid=5170883614328628721" target="_blank" rel="noopener" class="name">Porto Montenegro (Tivat)</a>, paseo entre yates y copa de tarde.',
+      d3s3: '<a href="https://maps.google.com/?cid=2402749889030866949" target="_blank" rel="noopener" class="name">Mirador de Sveti Stefan</a>, la postal, con luz de atardecer. ≈15 min.',
+      d3s4: '<a href="https://maps.google.com/?cid=15325553490007822475" target="_blank" rel="noopener" class="name">Casco antiguo de Budva</a><span class="tag">Fiesta</span> cena y beach clubs sin hora límite. Conductor sobrio o taxi (≈40 min, controles de alcoholemia habituales).',
+      d4dow: "Sábado 25",
+      d4h3: "Resaca y vuelo",
+      d4s1: '<span class="name">Prčanj</span>, último baño (opcional), café doble, maletas, checkout. Salida 10:15 máximo.',
+      d4s2: '<a href="https://www.google.com/maps/search/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" class="name">Aeropuerto de Tivat</a>, 20-25 min por el túnel de Vrmac. Coche a las 11:00 (depósito lleno), vuelo a las 13:00.',
+      capSveti: "Isla de Sveti Nikola",
+      footer: 'Boka Kotorska · 22–25 julio · hecho para el grupo<br>Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a> y Google Maps'
+    },
+    en: {
+      kicker: "Bay of Kotor · 22–25 July",
+      mapTitle: "The map",
+      mapSub: "Click a <b>day</b> in the legend to see just that day and its route; click a <b>point</b> to open it in Google Maps.",
+      legShow: "Show",
+      legD1: '<i class="dot" style="background:var(--d1)"></i> Day 1 · Wed 22',
+      legD2: '<i class="dot" style="background:var(--d2)"></i> Day 2 · Thu 23',
+      legD3: '<i class="dot" style="background:var(--d3)"></i> Day 3 · Fri 24',
+      legD4: '<i class="dot" style="background:var(--d4)"></i> Day 4 · Sat 25',
+      legAll: "All days",
+      itinTitle: "Day-by-day itinerary",
+      itinSub: "Timings built around the July heat: towns in the morning, swims at midday, fortresses at dusk.",
+      route: "Route on the map ↗",
+      d1dow: "Moving day",
+      d1h3: "Budva",
+      d1s1: '<a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Check-out Casa llac</a>, leave by 11am at the latest.',
+      d1s2: '<a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, wander the old town and have lunch. To see:<ul class="subs"><li>Budva Old Town</li><li>Seaside promenade</li><li>Church of St John</li><li>Citadel</li><li>Ballerina Statue</li><li>Mogren Beach</li></ul>',
+      d1s3: '<span class="name">After lunch, pick one:</span><ol class="options"><li><b>Top beaches near Budva</b><ul class="beaches"><li><a href="https://maps.app.goo.gl/6bawuCDNh3avGBm98" target="_blank" rel="noopener">Mogren 2 Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/GwVVJ1MUwnRg7DEi8" target="_blank" rel="noopener">free parking</a></span></li><li><a href="https://maps.app.goo.gl/RgyTdirQ71E6EVVH6" target="_blank" rel="noopener">Jaz Beach</a> <span class="pk">· <a href="https://maps.app.goo.gl/mvG7D7Q6unuZwQ7N6" target="_blank" rel="noopener">free parking</a></span></li></ul></li><li>Head to Sveti Nikola island</li><li>Head to the apartment</li></ol>',
+      d1s4: '<a href="https://maps.app.goo.gl/arcXiFmRmJm5uwKdA" target="_blank" rel="noopener" class="name">iDEA super</a>, grocery stop on the way to the apartment.',
+      d1s5: '<a href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener" class="name">Check-in Casa Costa</a> (Prčanj), from 3pm. We’ll get there later, of course.',
+      tTarda: "Afternoon", tCompra: "Shopping", tVespre: "Evening",
+      d2dow: "Thursday 23",
+      d2h3: "The bay, no rush",
+      d2s1: '<a href="https://maps.google.com/?cid=8280534372461368745" target="_blank" rel="noopener" class="name">Perast</a>, before 9am to park. Breakfast on the quay.',
+      d2s2: '<a href="https://maps.google.com/?cid=5400818497840744618" target="_blank" rel="noopener" class="name">Our Lady of the Rocks</a>, boat from Perast (~€20, cash; €2-3 donation at the church, shoulders covered). Then kayak or paddle around the bay.',
+      d2s3: '<span class="name">Prčanj</span>, lunch, a swim and rest at home.',
+      d2s4: '<span class="name">Quiet evening in Prčanj</span>, relaxed dinner and a drink near home, no car. Recharge for tomorrow’s party night.',
+      d3dow: "Friday 24",
+      d3h3: "Luštica, glamour and party",
+      d3s1: '<a href="https://maps.google.com/?cid=12517155045902395893" target="_blank" rel="noopener" class="name">Žanjice Beach</a>, ≈50 min of scenic road. Pebbles (water shoes!), views of Mamula. Lunch at the beach bar.',
+      d3s2: '<a href="https://maps.google.com/?cid=5170883614328628721" target="_blank" rel="noopener" class="name">Porto Montenegro (Tivat)</a>, a stroll among the yachts and an afternoon drink.',
+      d3s3: '<a href="https://maps.google.com/?cid=2402749889030866949" target="_blank" rel="noopener" class="name">Sveti Stefan viewpoint</a>, the postcard shot, in sunset light. ≈15 min.',
+      d3s4: '<a href="https://maps.google.com/?cid=15325553490007822475" target="_blank" rel="noopener" class="name">Budva Old Town</a><span class="tag">Party</span> dinner and beach clubs with no closing time. Sober driver or taxi (≈40 min, alcohol checks common).',
+      d4dow: "Saturday 25",
+      d4h3: "Hangover and flight",
+      d4s1: '<span class="name">Prčanj</span>, last swim (optional), double coffee, bags, checkout. Leave by 10:15 at the latest.',
+      d4s2: '<a href="https://www.google.com/maps/search/Tivat+Airport,+Montenegro" target="_blank" rel="noopener" class="name">Tivat Airport</a>, 20-25 min through the Vrmac tunnel. Car back at 11:00 (full tank), flight at 13:00.',
+      capSveti: "Sveti Nikola Island",
+      footer: 'Bay of Kotor · 22–25 July · made for the group<br>Photos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a> and Google Maps'
+    }
+  };
+
+  var i18nOrig = {};
+  function captureOrig(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if(!(k in i18nOrig)) i18nOrig[k] = el.innerHTML;
+    });
+  }
+  function setLang(lang){
+    var dict = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      var v = (lang === 'ca') ? i18nOrig[k] : (dict && dict[k] != null ? dict[k] : i18nOrig[k]);
+      if(v != null) el.innerHTML = v;
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-lang') === lang); });
+    try { localStorage.setItem('mnt_lang', lang); } catch(e){}
+    updatePopups(lang);
+  }
+
+  /* ---------- map ---------- */
   var map = L.map('map', {scrollWheelZoom:false}).setView([42.42, 18.70], 11);
   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 19, attribution: 'Imatgeria © Esri, Maxar, Earthstar Geographics'
@@ -288,20 +397,37 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
   var PRCANJ = [42.449,18.7539];
 
   var stops = [
-    {n:'Prčanj · Casa Costa', c:PRCANJ, day:1, t:'Casa Costa · el nostre allotjament', u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7', base:true},
-    {n:'Casa llac (Rooms Dujeva Drago)', c:[42.3433263,19.0528488], day:1, t:'Dia 1 · checkout abans de les 11h', u:'https://maps.app.goo.gl/5py5v1prxxbG8hU57', home:true, homeColor:'#6b7580'},
-    {n:'Budva (centre)', c:[42.2778,18.8381], day:1, t:'Dia 1 · ~12:00 · volta i dinar', u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro'},
-    {n:'iDEA super', c:[42.3865702,18.7416431], day:1, t:'Dia 1 · compra de camí a casa', u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA'},
-    {n:'Perast', c:[42.4860,18.6983], day:2, t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
-    {n:'Our Lady of the Rocks', c:[42.4868,18.6887], day:2, t:'Dia 2 · 10:00 · barca + caiac', u:'https://maps.google.com/?cid=5400818497840744618'},
-    {n:'Platja de Žanjice', c:[42.3947,18.5792], day:3, t:'Dia 3 · 09:30 · bany i dinar', u:'https://maps.google.com/?cid=12517155045902395893'},
-    {n:'Porto Montenegro (Tivat)', c:[42.4351,18.6939], day:3, t:'Dia 3 · 15:30 · copa entre iots', u:'https://maps.google.com/?cid=5170883614328628721'},
-    {n:'Mirador Sveti Stefan', c:[42.2581,18.8960], day:3, t:'Dia 3 · 19:30 · la foto', u:'https://maps.google.com/?cid=2402749889030866949'},
-    {n:'Casc antic de Budva', c:[42.2778,18.8381], day:3, t:'Dia 3 · 20:45 · FESTA', u:'https://maps.google.com/?cid=15325553490007822475'},
-    {n:'Aeroport de Tivat', c:[42.4047,18.7232], day:4, t:'Dia 4 · 11:00 · cotxe + vol 13:00', u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro'}
+    {n:'Prčanj · Casa Costa', c:PRCANJ, day:1, base:true, u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7',
+      t:{ca:'Casa Costa · el nostre allotjament', es:'Casa Costa · nuestro alojamiento', en:'Casa Costa · our accommodation'}},
+    {n:'Casa llac (Rooms Dujeva Drago)', c:[42.3433263,19.0528488], day:1, home:true, homeColor:'#6b7580', u:'https://maps.app.goo.gl/5py5v1prxxbG8hU57',
+      t:{ca:'Dia 1 · checkout abans de les 11h', es:'Día 1 · checkout antes de las 11h', en:'Day 1 · check-out before 11am'}},
+    {n:'Budva (centre)', c:[42.2778,18.8381], day:1, u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro',
+      t:{ca:'Dia 1 · ~12:00 · volta i dinar', es:'Día 1 · ~12:00 · vuelta y comida', en:'Day 1 · ~12:00 · stroll and lunch'}},
+    {n:'iDEA super', c:[42.3865702,18.7416431], day:1, u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA',
+      t:{ca:'Dia 1 · compra de camí a casa', es:'Día 1 · compra de camino a casa', en:'Day 1 · groceries on the way home'}},
+    {n:'Perast', c:[42.4860,18.6983], day:2, u:'https://maps.google.com/?cid=8280534372461368745',
+      t:{ca:'Dia 2 · 08:30 · esmorzar al moll', es:'Día 2 · 08:30 · desayuno en el muelle', en:'Day 2 · 08:30 · breakfast on the quay'}},
+    {n:'Our Lady of the Rocks', c:[42.4868,18.6887], day:2, u:'https://maps.google.com/?cid=5400818497840744618',
+      t:{ca:'Dia 2 · 10:00 · barca + caiac', es:'Día 2 · 10:00 · barca + kayak', en:'Day 2 · 10:00 · boat + kayak'}},
+    {n:'Platja de Žanjice', c:[42.3947,18.5792], day:3, u:'https://maps.google.com/?cid=12517155045902395893',
+      t:{ca:'Dia 3 · 09:30 · bany i dinar', es:'Día 3 · 09:30 · baño y comida', en:'Day 3 · 09:30 · swim and lunch'}},
+    {n:'Porto Montenegro (Tivat)', c:[42.4351,18.6939], day:3, u:'https://maps.google.com/?cid=5170883614328628721',
+      t:{ca:'Dia 3 · 15:30 · copa entre iots', es:'Día 3 · 15:30 · copa entre yates', en:'Day 3 · 15:30 · drink among the yachts'}},
+    {n:'Mirador Sveti Stefan', c:[42.2581,18.8960], day:3, u:'https://maps.google.com/?cid=2402749889030866949',
+      t:{ca:'Dia 3 · 19:30 · la foto', es:'Día 3 · 19:30 · la foto', en:'Day 3 · 19:30 · the photo'}},
+    {n:'Casc antic de Budva', c:[42.2778,18.8381], day:3, u:'https://maps.google.com/?cid=15325553490007822475',
+      t:{ca:'Dia 3 · 20:45 · FESTA', es:'Día 3 · 20:45 · FIESTA', en:'Day 3 · 20:45 · PARTY'}},
+    {n:'Aeroport de Tivat', c:[42.4047,18.7232], day:4, u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro',
+      t:{ca:'Dia 4 · 11:00 · cotxe + vol 13:00', es:'Día 4 · 11:00 · coche + vuelo 13:00', en:'Day 4 · 11:00 · car + flight 13:00'}}
   ];
 
-  // ruta ordenada de cada dia (surt de la base i, si escau, hi torna)
+  function popHtml(s, lang){
+    var sub = (s.t && s.t[lang]) ? s.t[lang] : (s.t && s.t.ca ? s.t.ca : '');
+    return '<div class="pop-title">'+s.n+'</div>'+
+           '<div class="pop-sub">'+sub+'</div>'+
+           '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">'+(OPENMAPS[lang]||OPENMAPS.ca)+'</a>';
+  }
+
   var dayPaths = {
     1: [[42.3433263,19.0528488], [42.2778,18.8381], [42.3865702,18.7416431], PRCANJ],
     2: [PRCANJ, [42.4860,18.6983], [42.4868,18.6887], PRCANJ],
@@ -309,29 +435,34 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
     4: [PRCANJ, [42.4047,18.7232]]
   };
 
-  var dayMarkers = {1:[],2:[],3:[],4:[]}, dayLines = {}, baseMarker = null, allBounds = [];
+  var dayMarkers = {1:[],2:[],3:[],4:[]}, dayLines = {}, baseMarker = null, allBounds = [], markerRefs = [];
   var daySeq = {1:0,2:0,3:0,4:0};
 
   stops.forEach(function(s){
-    var popup =
-      '<div class="pop-title">'+s.n+'</div>'+
-      '<div class="pop-sub">'+s.t+'</div>'+
-      '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">Obrir a Google Maps ↗</a>';
+    var mk;
     if (s.base) {
       var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span></div>', iconSize:[28,28], iconAnchor:[14,14]});
-      baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).bindPopup(popup);
+      mk = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Prčanj · Casa Costa'}).bindPopup(popHtml(s, INIT_LANG));
+      baseMarker = mk;
     } else if (s.home) {
       var hc = s.homeColor || '#6b7580';
       var hicon = L.divIcon({className:'', html:'<div style="width:26px;height:26px;border-radius:50%;background:'+hc+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>', iconSize:[26,26], iconAnchor:[13,13]});
-      dayMarkers[s.day].push(L.marker(s.c, {icon:hicon}).bindPopup(popup));
+      mk = L.marker(s.c, {icon:hicon}).bindPopup(popHtml(s, INIT_LANG));
+      dayMarkers[s.day].push(mk);
     } else {
       var col = DAY_COLORS[s.day];
       var num = ++daySeq[s.day];
       var icon = L.divIcon({className:'', html:'<div style="width:24px;height:24px;border-radius:50%;background:'+col+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);color:#fff;font:700 12px/24px -apple-system,system-ui,sans-serif;text-align:center">'+num+'</div>', iconSize:[24,24], iconAnchor:[12,12]});
-      dayMarkers[s.day].push(L.marker(s.c, {icon:icon}).bindPopup(popup));
+      mk = L.marker(s.c, {icon:icon}).bindPopup(popHtml(s, INIT_LANG));
+      dayMarkers[s.day].push(mk);
     }
+    markerRefs.push({marker:mk, stop:s});
     allBounds.push(s.c);
   });
+
+  function updatePopups(lang){
+    markerRefs.forEach(function(r){ r.marker.setPopupContent(popHtml(r.stop, lang)); });
+  }
 
   [1,2,3,4].forEach(function(d){
     var col = DAY_COLORS[d];
@@ -365,18 +496,12 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
 
   showDay(0);
 
-  function bounceBase(){
-    if(!baseMarker || !baseMarker._icon) return;
-    var el = baseMarker._icon.querySelector('.base-pin');
-    if(!el) return;
-    el.classList.remove('bounce'); void el.offsetWidth; el.classList.add('bounce');
-  }
-  var baseChip = document.getElementById('baseChip');
-  if (baseChip) {
-    baseChip.addEventListener('click', function(){
-      setTimeout(function(){ if(baseMarker){ baseMarker.openPopup(); bounceBase(); } }, 550);
-    });
-  }
+  /* ---------- init language ---------- */
+  captureOrig();
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); });
+  });
+  setLang(INIT_LANG);
 </script>
 </body>
 </html>
