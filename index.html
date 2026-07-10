@@ -176,10 +176,10 @@
         <div class="day-head">
           <span class="day-num" style="background:var(--d1)">1</span>
           <div class="day-titles"><span class="dow">Trasllat de casa</span><h3>Budva</h3></div>
-          <a class="day-route" href="https://www.google.com/maps/dir/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener">Ruta al mapa ↗</a>
+          <a class="day-route" href="https://www.google.com/maps/dir/42.3433263,19.0528488/Old+Town,+Budva,+Montenegro/42.3865702,18.7416431/42.4487717,18.752616" target="_blank" rel="noopener">Ruta al mapa ↗</a>
         </div>
         <ul class="stops">
-          <li><span class="time">11:00</span><div class="stop-body"><span class="name">Checkout Casa llac</span>, sortida abans de les 11h com a molt tard.</div></li>
+          <li><span class="time">11:00</span><div class="stop-body"><a href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener" class="name">Checkout Casa llac</a>, sortida abans de les 11h com a molt tard.</div></li>
           <li><span class="time">~12:00</span><div class="stop-body"><a href="https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro" target="_blank" rel="noopener" class="name">Budva</a>, volta pel centre i dinar. Per veure:
             <ul class="subs">
               <li>Ciutat Vella de Budva</li>
@@ -265,6 +265,7 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
 
   var stops = [
     {n:'Prčanj · Casa Costa', c:PRCANJ, day:1, t:'Casa Costa · el nostre allotjament', u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7', base:true},
+    {n:'Casa llac (Rooms Dujeva Drago)', c:[42.3433263,19.0528488], day:1, t:'Dia 1 · checkout abans de les 11h', u:'https://maps.app.goo.gl/5py5v1prxxbG8hU57', home:true, homeColor:'#6b7580'},
     {n:'Budva (centre)', c:[42.2778,18.8381], day:1, t:'Dia 1 · ~12:00 · volta i dinar', u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro'},
     {n:'iDEA super', c:[42.3865702,18.7416431], day:1, t:'Dia 1 · compra de camí a casa', u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA'},
     {n:'Perast', c:[42.4860,18.6983], day:2, t:'Dia 2 · 08:30 · esmorzar al moll', u:'https://maps.google.com/?cid=8280534372461368745'},
@@ -278,7 +279,7 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
 
   // ruta ordenada de cada dia (surt de la base i, si escau, hi torna)
   var dayPaths = {
-    1: [[42.2778,18.8381], [42.3865702,18.7416431], PRCANJ],
+    1: [[42.3433263,19.0528488], [42.2778,18.8381], [42.3865702,18.7416431], PRCANJ],
     2: [PRCANJ, [42.4860,18.6983], [42.4868,18.6887], PRCANJ],
     3: [PRCANJ, [42.3947,18.5792], [42.4351,18.6939], [42.2581,18.8960], [42.2778,18.8381]],
     4: [PRCANJ, [42.4047,18.7232]]
@@ -295,6 +296,10 @@ Foto: <a href="https://commons.wikimedia.org/wiki/File:Kotor_aerial_1.jpg" targe
     if (s.base) {
       var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span></div>', iconSize:[28,28], iconAnchor:[14,14]});
       baseMarker = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Base · Prčanj'}).bindPopup(popup);
+    } else if (s.home) {
+      var hc = s.homeColor || '#6b7580';
+      var hicon = L.divIcon({className:'', html:'<div style="width:26px;height:26px;border-radius:50%;background:'+hc+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>', iconSize:[26,26], iconAnchor:[13,13]});
+      dayMarkers[s.day].push(L.marker(s.c, {icon:hicon}).bindPopup(popup));
     } else {
       var col = DAY_COLORS[s.day];
       var num = ++daySeq[s.day];
