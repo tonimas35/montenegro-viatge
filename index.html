@@ -119,6 +119,13 @@
   /* ---------- Leaflet popup ---------- */
   .leaflet-popup-content-wrapper { border-radius:12px; box-shadow:0 8px 26px rgba(40,60,80,.16); }
   .leaflet-popup-content { margin:13px 15px; font-family:inherit; }
+  .pop-img { width:210px; height:96px; object-fit:cover; border-radius:9px; display:block; margin-bottom:9px; }
+  .leaflet-tooltip.pin-label {
+    background:#fff; border:0; border-radius:7px; padding:3px 8px;
+    color:var(--ink); font-family:inherit; font-size:11px; font-weight:600;
+    box-shadow:0 1px 5px rgba(20,40,60,.3); white-space:nowrap;
+  }
+  .leaflet-tooltip.pin-label::before { display:none; }
   .pop-title { font-weight:700; font-size:14px; color:var(--ink); }
   .pop-sub { font-size:12.5px; color:var(--muted); margin:3px 0 9px; }
   .pop-link { display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600; color:#fff; background:var(--sea); padding:6px 11px; border-radius:8px; text-decoration:none; }
@@ -452,40 +459,75 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
   var DAY_COLORS = {1:'#e05a63', 2:'#e0934f', 3:'#2f9e8f', 4:'#7e63b6'};
   var PRCANJ = [42.449,18.7539];
 
+  // l = etiqueta curta al mapa · img = foto del pin · major = surt a la vista resum · opt = alternativa (pin petit)
   var stops = [
-    {n:'Prčanj · Casa Costa', c:PRCANJ, day:1, base:true, u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7',
+    {n:'Prčanj · Casa Costa', l:'Casa Costa', c:PRCANJ, day:1, base:true, u:'https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7',
       t:{ca:'Casa Costa · el nostre allotjament', es:'Casa Costa · nuestro alojamiento', en:'Casa Costa · our accommodation'}},
-    {n:'Casa llac (Rooms Dujeva Drago)', c:[42.3433263,19.0528488], day:1, home:true, homeColor:'#6b7580', u:'https://maps.app.goo.gl/5py5v1prxxbG8hU57',
+    {n:'Casa llac (Rooms Dujeva Drago)', l:'Casa llac', c:[42.3433263,19.0528488], day:1, home:true, major:true, u:'https://maps.app.goo.gl/5py5v1prxxbG8hU57',
       t:{ca:'Dia 1 · checkout abans de les 11h', es:'Día 1 · checkout antes de las 11h', en:'Day 1 · check-out before 11am'}},
-    {n:'Budva (centre)', c:[42.2778,18.8381], day:1, u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro',
+    {n:'Budva (centre)', l:'Budva', c:[42.2778,18.8381], day:1, img:'budva.png', major:true, u:'https://www.google.com/maps/search/Old+Town,+Budva,+Montenegro',
       t:{ca:'Dia 1 · ~12:00 · volta i dinar', es:'Día 1 · ~12:00 · vuelta y comida', en:'Day 1 · ~12:00 · stroll and lunch'}},
-    {n:'iDEA super', c:[42.3865702,18.7416431], day:1, u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA',
+    {n:'Mogren 2 Beach', l:'Mogren 2', c:[42.276288,18.8300042], day:1, img:'mogren.jpg', opt:true, u:'https://maps.app.goo.gl/6bawuCDNh3avGBm98',
+      t:{ca:'Opció de tarda · platja', es:'Opción de tarde · playa', en:'Afternoon option · beach'}},
+    {n:'Jaz Beach', l:'Jaz', c:[42.2839417,18.80562], day:1, img:'jaz.jpg', opt:true, u:'https://maps.app.goo.gl/RgyTdirQ71E6EVVH6',
+      t:{ca:'Opció de tarda · platja', es:'Opción de tarde · playa', en:'Afternoon option · beach'}},
+    {n:'Illa de Sveti Nikola', l:'Sveti Nikola', c:[42.2600,18.8520], day:1, img:'illa.png', opt:true, u:'https://www.google.com/maps/search/Sveti+Nikola+Island,+Budva',
+      t:{ca:'Opció de tarda · illa (barca)', es:'Opción de tarde · isla (barca)', en:'Afternoon option · island (boat)'}},
+    {n:'iDEA super', l:'iDEA super', c:[42.3865702,18.7416431], day:1, u:'https://maps.app.goo.gl/arcXiFmRmJm5uwKdA',
       t:{ca:'Dia 1 · compra de camí a casa', es:'Día 1 · compra de camino a casa', en:'Day 1 · groceries on the way home'}},
-    {n:'Herceg Novi', c:[42.4531,18.5375], day:2, u:'https://www.google.com/maps/search/Herceg+Novi+Old+Town,+Montenegro',
-      t:{ca:'Dia 2 · matí · casc antic + Savina', es:'Día 2 · mañana · casco antiguo + Savina', en:'Day 2 · morning · old town + Savina'}},
-    {n:'Perast', c:[42.4860,18.6983], day:2, u:'https://maps.google.com/?cid=8280534372461368745',
-      t:{ca:'Dia 2 · tarda · poble + Our Lady', es:'Día 2 · tarde · pueblo + Our Lady', en:'Day 2 · afternoon · village + Our Lady'}},
-    {n:'Kotor', c:[42.4247,18.7712], day:2, u:'https://maps.google.com/?cid=7213753815455049709',
+    {n:'Herceg Novi', l:'Herceg Novi', c:[42.4531,18.5375], day:2, img:'hercegnovi.jpg', major:true, u:'https://www.google.com/maps/search/Herceg+Novi+Old+Town,+Montenegro',
+      t:{ca:'Dia 2 · matí · casc antic', es:'Día 2 · mañana · casco antiguo', en:'Day 2 · morning · old town'}},
+    {n:'Ferry Lepetane–Kamenari', l:'Ferry', c:[42.4267,18.6597], day:2, opt:true, u:'https://www.google.com/maps/search/Lepetane+Ferry,+Montenegro',
+      t:{ca:'Ferry per creuar la badia', es:'Ferry para cruzar la bahía', en:'Ferry across the bay'}},
+    {n:'Monestir de Savina', l:'Savina', c:[42.4527,18.5569], day:2, opt:true, u:'https://www.google.com/maps/search/Savina+Monastery,+Herceg+Novi',
+      t:{ca:'Dia 2 · primera parada · té pàrquing', es:'Día 2 · primera parada · tiene parking', en:'Day 2 · first stop · has parking'}},
+    {n:'Perast', l:'Perast', c:[42.4860,18.6983], day:2, img:'perast.jpg', major:true, u:'https://maps.google.com/?cid=8280534372461368745',
+      t:{ca:'Dia 2 · tarda · poble + barca', es:'Día 2 · tarde · pueblo + barca', en:'Day 2 · afternoon · village + boat'}},
+    {n:'Our Lady of the Rocks', l:'Our Lady', c:[42.4868,18.6887], day:2, opt:true, u:'https://maps.google.com/?cid=5400818497840744618',
+      t:{ca:'Barca des de Perast (~20 €)', es:'Barca desde Perast (~20 €)', en:'Boat from Perast (~€20)'}},
+    {n:'Kotor', l:'Kotor', c:[42.4247,18.7712], day:2, img:'kotor.jpg', major:true, u:'https://maps.google.com/?cid=7213753815455049709',
       t:{ca:'Dia 2 · vespre · casc antic lleuger', es:'Día 2 · noche · casco antiguo ligero', en:'Day 2 · evening · light old-town walk'}},
-    {n:'Fortalesa San Giovanni', c:[42.4221,18.7748], day:2, u:'https://maps.google.com/?cid=13101188094826256396',
+    {n:'Fortalesa San Giovanni', l:'San Giovanni', c:[42.4221,18.7748], day:2, img:'miradorkotor.jpg', u:'https://maps.google.com/?cid=13101188094826256396',
       t:{ca:'Dia 2 · sunset · 1.350 graons', es:'Día 2 · atardecer · 1.350 escalones', en:'Day 2 · sunset · 1,350 steps'}},
-    {n:'Luštica · Žanjice', c:[42.3947132,18.5791941], day:3, u:'https://maps.app.goo.gl/HFA8hTeEWZenHa2t8',
-      t:{ca:'Dia 3 · matí · Luštica (opcions de platja)', es:'Día 3 · mañana · Luštica (opciones de playa)', en:'Day 3 · morning · Luštica (beach options)'}},
-    {n:'Sveti Stefan', c:[42.2556261,18.8947911], day:3, u:'https://maps.app.goo.gl/xZgH3FuAiNTR5jx38',
+    {n:'Žanjice Beach', l:'Žanjice', c:[42.3947132,18.5791941], day:3, img:'zanjice.jpg', major:true, u:'https://maps.app.goo.gl/HFA8hTeEWZenHa2t8',
+      t:{ca:'Dia 3 · matí · opció 1', es:'Día 3 · mañana · opción 1', en:'Day 3 · morning · option 1'}},
+    {n:'Kayak Rental Veslo', l:'Kayak Veslo', c:[42.3699378,18.6092773], day:3, opt:true, u:'https://maps.app.goo.gl/MHxD9C8tzJ2PjZZe6',
+      t:{ca:'Opció 2 · caiac (cal matinar)', es:'Opción 2 · kayak (hay que madrugar)', en:'Option 2 · kayak (early start)'}},
+    {n:'Blue Cave', l:'Blue Cave', c:[42.3740712,18.5963398], day:3, opt:true, u:'https://maps.app.goo.gl/tedhK6TEAX1qNirV6',
+      t:{ca:'Opció 2 · amb el caiac', es:'Opción 2 · con el kayak', en:'Option 2 · by kayak'}},
+    {n:'Plavi Horizonti', l:'Plavi Horizonti', c:[42.3858912,18.6834406], day:3, opt:true, u:'https://maps.app.goo.gl/edYZLhHpLFbfHRqt6',
+      t:{ca:'Opció 3 · platja', es:'Opción 3 · playa', en:'Option 3 · beach'}},
+    {n:'Velja Spila beach', l:'Velja Spila', c:[42.3773961,18.6522092], day:3, opt:true, u:'https://maps.app.goo.gl/DEmyQKEwXZEUt7e18',
+      t:{ca:'Opció 4 · platja', es:'Opción 4 · playa', en:'Option 4 · beach'}},
+    {n:'Mirador Luštica Bay', l:'Luštica Bay', c:[42.3891575,18.6642642], day:3, opt:true, u:'https://maps.app.goo.gl/2UWEAJYff2PfSJ3U6',
+      t:{ca:'Opció 5 · si quadra amb la ruta', es:'Opción 5 · si cuadra con la ruta', en:'Option 5 · if it fits the route'}},
+    {n:'Sveti Stefan', l:'Sveti Stefan', c:[42.2556261,18.8947911], day:3, img:'svetistefan.jpg', major:true, u:'https://maps.app.goo.gl/xZgH3FuAiNTR5jx38',
       t:{ca:'Dia 3 · tarda · posta de sol', es:'Día 3 · tarde · atardecer', en:'Day 3 · afternoon · sunset'}},
-    {n:'Budva', c:[42.2778,18.8381], day:3, u:'https://maps.google.com/?cid=15325553490007822475',
+    {n:'Budva · festa', l:'Budva festa', c:[42.2778,18.8381], day:3, img:'budvaparty.jpg', u:'https://maps.google.com/?cid=15325553490007822475',
       t:{ca:'Dia 3 · nit · festa', es:'Día 3 · noche · fiesta', en:'Day 3 · night · party'}},
-    {n:'Tivat · Porto Montenegro', c:[42.4351,18.6939], day:4, u:'https://maps.google.com/?cid=5170883614328628721',
+    {n:'Tivat · Porto Montenegro', l:'Porto Montenegro', c:[42.4351,18.6939], day:4, img:'tivat.jpg', major:true, u:'https://maps.google.com/?cid=5170883614328628721',
       t:{ca:'Dia 4 · matí · últim passeig', es:'Día 4 · mañana · último paseo', en:'Day 4 · morning · last stroll'}},
-    {n:'Aeroport de Tivat', c:[42.4047,18.7232], day:4, u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro',
+    {n:'Aeroport de Tivat', l:'Tivat Airport', c:[42.4047,18.7232], day:4, u:'https://www.google.com/maps/search/Tivat+Airport,+Montenegro',
       t:{ca:'Dia 4 · cotxe + vol 13:00', es:'Día 4 · coche + vuelo 13:00', en:'Day 4 · car + flight 13:00'}}
   ];
 
   function popHtml(s, lang){
     var sub = (s.t && s.t[lang]) ? s.t[lang] : (s.t && s.t.ca ? s.t.ca : '');
-    return '<div class="pop-title">'+s.n+'</div>'+
+    var img = s.img ? '<img class="pop-img" src="'+s.img+'" alt="">' : '';
+    return img+'<div class="pop-title">'+s.n+'</div>'+
            '<div class="pop-sub">'+sub+'</div>'+
            '<a class="pop-link" href="'+s.u+'" target="_blank" rel="noopener">'+(OPENMAPS[lang]||OPENMAPS.ca)+'</a>';
+  }
+
+  function photoIcon(src, col, num, size){
+    var badge = num ? '<span style="position:absolute;top:-4px;right:-7px;width:18px;height:18px;border-radius:50%;background:'+col+';color:#fff;font:700 10px/18px -apple-system,system-ui,sans-serif;text-align:center;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35)">'+num+'</span>' : '';
+    return L.divIcon({className:'', html:'<div style="position:relative;width:'+size+'px;height:'+size+'px"><img src="'+src+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid '+col+';box-shadow:0 0 0 2px #fff, 0 2px 6px rgba(0,0,0,.4);display:block">'+badge+'</div>', iconSize:[size,size], iconAnchor:[size/2,size/2]});
+  }
+  function numIconPlain(col, num){
+    return L.divIcon({className:'', html:'<div style="width:24px;height:24px;border-radius:50%;background:'+col+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);color:#fff;font:700 12px/24px -apple-system,system-ui,sans-serif;text-align:center">'+num+'</div>', iconSize:[24,24], iconAnchor:[12,12]});
+  }
+  function optIcon(col){
+    return L.divIcon({className:'', html:'<div style="width:15px;height:15px;border-radius:50%;background:#fff;border:3px solid '+col+';box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>', iconSize:[15,15], iconAnchor:[8,8]});
   }
 
   var dayPaths = {
@@ -506,27 +548,43 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
   var dayMarkers = {1:[],2:[],3:[],4:[]}, dayLines = {}, baseMarker = null, allBounds = [], markerRefs = [];
   var daySeq = {1:0,2:0,3:0,4:0};
 
+  var dayBounds = {1:[],2:[],3:[],4:[]};
+
   stops.forEach(function(s){
     var mk, dotIcon, numIcon;
+    var col = DAY_COLORS[s.day];
     if (s.base) {
       var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span></div>', iconSize:[28,28], iconAnchor:[14,14]});
       mk = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Prčanj · Casa Costa'}).bindPopup(popHtml(s, INIT_LANG));
+      mk.bindTooltip(s.l, {permanent:true, direction:'bottom', offset:[0,16], className:'pin-label'});
       baseMarker = mk;
+      allBounds.push(s.c);
     } else if (s.home) {
-      var hc = s.homeColor || '#6b7580';
-      var hicon = L.divIcon({className:'', html:'<div style="width:26px;height:26px;border-radius:50%;background:'+hc+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>', iconSize:[26,26], iconAnchor:[13,13]});
+      var hicon = L.divIcon({className:'', html:'<div style="width:26px;height:26px;border-radius:50%;background:#6b7580;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>', iconSize:[26,26], iconAnchor:[13,13]});
       mk = L.marker(s.c, {icon:hicon}).bindPopup(popHtml(s, INIT_LANG));
-      dayMarkers[s.day].push({marker:mk, dot:hicon, num:hicon});
+      mk.bindTooltip(s.l, {permanent:true, direction:'bottom', offset:[0,15], className:'pin-label'});
+      dayMarkers[s.day].push({marker:mk, dot:hicon, num:hicon, major:!!s.major});
+    } else if (s.opt) {
+      var oicon = s.img ? photoIcon(s.img, col, null, 28) : optIcon(col);
+      mk = L.marker(s.c, {icon:oicon}).bindPopup(popHtml(s, INIT_LANG));
+      mk.bindTooltip(s.l, {direction:'top', offset:[0,-12], className:'pin-label'});
+      dayMarkers[s.day].push({marker:mk, dot:oicon, num:oicon, major:false});
     } else {
-      var col = DAY_COLORS[s.day];
       var num = ++daySeq[s.day];
-      numIcon = L.divIcon({className:'', html:'<div style="width:24px;height:24px;border-radius:50%;background:'+col+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);color:#fff;font:700 12px/24px -apple-system,system-ui,sans-serif;text-align:center">'+num+'</div>', iconSize:[24,24], iconAnchor:[12,12]});
-      dotIcon = L.divIcon({className:'', html:'<div style="width:13px;height:13px;border-radius:50%;background:'+col+';border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)"></div>', iconSize:[13,13], iconAnchor:[7,7]});
-      mk = L.marker(s.c, {icon:dotIcon}).bindPopup(popHtml(s, INIT_LANG));
-      dayMarkers[s.day].push({marker:mk, dot:dotIcon, num:numIcon});
+      if (s.img) {
+        numIcon = photoIcon(s.img, col, num, 38);
+        dotIcon = photoIcon(s.img, col, null, 34);
+      } else {
+        numIcon = numIconPlain(col, num);
+        dotIcon = numIcon;
+      }
+      mk = L.marker(s.c, {icon:numIcon, zIndexOffset:500}).bindPopup(popHtml(s, INIT_LANG));
+      mk.bindTooltip(s.l, {permanent:true, direction:'bottom', offset:[0, s.img?22:14], className:'pin-label'});
+      dayMarkers[s.day].push({marker:mk, dot:dotIcon, num:numIcon, major:!!s.major});
     }
+    if (!s.base) dayBounds[s.day].push(s.c);
+    if (s.major) allBounds.push(s.c);
     markerRefs.push({marker:mk, stop:s});
-    allBounds.push(s.c);
   });
 
   function updatePopups(lang){
@@ -540,11 +598,12 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
     dayLines[d] = L.layerGroup([line]);
   });
 
-  function showDay(day){ // 0 = resum (tots els dies), d = detall d'un dia
+  function showDay(day){ // 0 = resum (llocs destacats), d = detall d'un dia
     for (var d=1; d<=4; d++){
       var on = (day===0 || day===d);
       dayMarkers[d].forEach(function(rec){
-        if(on){ rec.marker.setIcon(day===0 ? rec.dot : rec.num); rec.marker.addTo(map); }
+        var visible = on && (day!==0 || rec.major);
+        if(visible){ rec.marker.setIcon(day===0 ? rec.dot : rec.num); rec.marker.addTo(map); }
         else { map.removeLayer(rec.marker); }
       });
       if(day!==0 && on){ dayLines[d].addTo(map); } else { map.removeLayer(dayLines[d]); }
@@ -556,7 +615,8 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
     document.querySelectorAll('.leg').forEach(function(b){
       b.classList.toggle('active', +b.getAttribute('data-day')===day);
     });
-    map.fitBounds(day===0 ? allBounds : dayPaths[day], {padding:[35,35], maxZoom:13});
+    var bounds = day===0 ? allBounds : dayPaths[day].concat(dayBounds[day], [PRCANJ]);
+    map.fitBounds(bounds, {padding:[45,45], maxZoom:13});
   }
 
   document.querySelectorAll('.leg').forEach(function(b){
