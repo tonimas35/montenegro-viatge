@@ -1,0 +1,12 @@
+{
+  "name": "Montenegro · Boka Kotorska",
+  "short_name": "Montenegro",
+  "description": "Guia del viatge a Montenegro (Boka Kotorska), 22–25 de juliol de 2026",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f7f8",
+  "theme_color": "#1d5e84",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
