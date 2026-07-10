@@ -445,7 +445,7 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
   var daySeq = {1:0,2:0,3:0,4:0};
 
   stops.forEach(function(s){
-    var mk;
+    var mk, dotIcon, numIcon;
     if (s.base) {
       var bicon = L.divIcon({className:'', html:'<div class="base-pin"><span class="base-ring"></span><span class="base-dot"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span></div>', iconSize:[28,28], iconAnchor:[14,14]});
       mk = L.marker(s.c, {icon:bicon, zIndexOffset:1000, title:'Prčanj · Casa Costa'}).bindPopup(popHtml(s, INIT_LANG));
@@ -454,13 +454,14 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
       var hc = s.homeColor || '#6b7580';
       var hicon = L.divIcon({className:'', html:'<div style="width:26px;height:26px;border-radius:50%;background:'+hc+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);display:grid;place-items:center"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></div>', iconSize:[26,26], iconAnchor:[13,13]});
       mk = L.marker(s.c, {icon:hicon}).bindPopup(popHtml(s, INIT_LANG));
-      dayMarkers[s.day].push(mk);
+      dayMarkers[s.day].push({marker:mk, dot:hicon, num:hicon});
     } else {
       var col = DAY_COLORS[s.day];
       var num = ++daySeq[s.day];
-      var icon = L.divIcon({className:'', html:'<div style="width:24px;height:24px;border-radius:50%;background:'+col+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);color:#fff;font:700 12px/24px -apple-system,system-ui,sans-serif;text-align:center">'+num+'</div>', iconSize:[24,24], iconAnchor:[12,12]});
-      mk = L.marker(s.c, {icon:icon}).bindPopup(popHtml(s, INIT_LANG));
-      dayMarkers[s.day].push(mk);
+      numIcon = L.divIcon({className:'', html:'<div style="width:24px;height:24px;border-radius:50%;background:'+col+';border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);color:#fff;font:700 12px/24px -apple-system,system-ui,sans-serif;text-align:center">'+num+'</div>', iconSize:[24,24], iconAnchor:[12,12]});
+      dotIcon = L.divIcon({className:'', html:'<div style="width:13px;height:13px;border-radius:50%;background:'+col+';border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.45)"></div>', iconSize:[13,13], iconAnchor:[7,7]});
+      mk = L.marker(s.c, {icon:dotIcon}).bindPopup(popHtml(s, INIT_LANG));
+      dayMarkers[s.day].push({marker:mk, dot:dotIcon, num:numIcon});
     }
     markerRefs.push({marker:mk, stop:s});
     allBounds.push(s.c);
@@ -477,11 +478,14 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
     dayLines[d] = L.layerGroup([line]);
   });
 
-  function showDay(day){ // 0 = tots els dies
+  function showDay(day){ // 0 = resum (tots els dies), d = detall d'un dia
     for (var d=1; d<=4; d++){
       var on = (day===0 || day===d);
-      dayMarkers[d].forEach(function(m){ if(on){ m.addTo(map); } else { map.removeLayer(m); } });
-      if(on){ dayLines[d].addTo(map); } else { map.removeLayer(dayLines[d]); }
+      dayMarkers[d].forEach(function(rec){
+        if(on){ rec.marker.setIcon(day===0 ? rec.dot : rec.num); rec.marker.addTo(map); }
+        else { map.removeLayer(rec.marker); }
+      });
+      if(day!==0 && on){ dayLines[d].addTo(map); } else { map.removeLayer(dayLines[d]); }
     }
     baseMarker.addTo(map);
     document.querySelectorAll('.day').forEach(function(c){
