@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organització · Montenegro · Boka Kotorska</title>
+<meta name="description" content="Reserves i enllaços del viatge a Montenegro: allotjaments, vols, cotxe, activitats i la maleta.">
+<meta name="theme-color" content="#1d5e84">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Organització · Montenegro">
+<meta property="og:description" content="Reserves i enllaços del viatge: allotjaments, vols, cotxe, activitats i la maleta.">
+<meta property="og:image" content="https://tonimas35.github.io/montenegro-viatge/hero.jpg">
+<meta property="og:url" content="https://tonimas35.github.io/montenegro-viatge/organitzacio.html">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --ink:#2a3742; --muted:#6c7783; --line:#e8ebee;
+    --sea:#1d5e84; --sea-deep:#16486a;
+    --bg:#f6f7f8;
+    --shadow:0 1px 2px rgba(40,60,80,.04), 0 3px 12px rgba(40,60,80,.05);
+    --radius:14px;
+    --content:min(1320px, 94vw);
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; color:var(--ink); background:var(--bg);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position:relative; color:#fff; overflow:hidden;
+    padding:58px 24px 36px;
+    background:
+      linear-gradient(180deg, rgba(20,55,80,.5) 0%, rgba(20,50,72,.78) 100%),
+      url('hero.jpg') center 35%/cover no-repeat;
+  }
+  .hero-inner { width:var(--content); margin:0 auto; }
+  .brand { position:absolute; top:15px; left:20px; z-index:4; display:inline-flex; align-items:center; gap:9px; color:#fff; text-decoration:none; }
+  .brand-mark { width:34px; height:34px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+  .brand-name { display:flex; flex-direction:column; line-height:1; }
+  .brand-name b { font-size:15px; font-weight:700; letter-spacing:.01em; }
+  .brand-name small { font-size:9px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; opacity:.72; margin-top:3px; }
+  .langs { position:absolute; top:16px; right:16px; z-index:4; display:flex; gap:4px; }
+  .lang-btn { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); color:#fff; font-family:inherit; font-size:12px; font-weight:700; letter-spacing:.02em; padding:6px 10px; border-radius:8px; cursor:pointer; transition:background .15s, color .15s; }
+  .lang-btn:hover { background:rgba(255,255,255,.3); }
+  .lang-btn.active { background:#fff; color:var(--sea); border-color:#fff; }
+  .nav-btn { text-decoration:none; display:inline-flex; align-items:center; margin-right:6px; }
+  .kicker { font-size:13px; font-weight:600; letter-spacing:.04em; opacity:.9; }
+  .hero h1 { font-weight:700; font-size:clamp(26px, 4.5vw, 38px); line-height:1.06; margin:10px 0 0; letter-spacing:-.01em; }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { width:var(--content); margin:0 auto; padding:0; }
+  .sec-sub { margin:26px 0 16px; color:var(--muted); font-size:14px; }
+  .org-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
+  .org-card { background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .org-head { display:flex; align-items:center; gap:11px; padding:15px 18px 12px; border-bottom:1px solid var(--line); }
+  .org-ico { width:36px; height:36px; flex:0 0 36px; border-radius:10px; background:#eef3f7; color:var(--sea); display:grid; place-items:center; }
+  .org-head h2 { margin:0; font-size:16px; font-weight:700; }
+  .org-body { padding:6px 18px 14px; }
+  .org-row { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid #f1f3f5; }
+  .org-row:last-child { border-bottom:0; }
+  .org-info { flex:1 1 auto; min-width:0; }
+  .org-info b { display:block; font-size:14px; }
+  .org-info span { display:block; font-size:12.5px; color:var(--muted); margin-top:1px; }
+  .go {
+    white-space:nowrap; display:inline-flex; align-items:center; gap:5px; font-size:12.5px; font-weight:600;
+    color:#fff; background:var(--sea); border-radius:9px; padding:7px 12px; text-decoration:none;
+    transition:background .15s;
+  }
+  .go:hover { background:var(--sea-deep); }
+  .go.soft { color:var(--sea); background:#eef3f7; border:1px solid #dce6ee; }
+  .go.soft:hover { background:#e3ecf3; }
+  .pending {
+    white-space:nowrap; font-size:11px; font-weight:600; color:var(--muted);
+    background:#f4f6f8; border:1px dashed #ccd5dd; border-radius:999px; padding:5px 11px;
+  }
+  .chip {
+    white-space:nowrap; font-size:11px; font-weight:600; color:#2f7a52;
+    background:#e9f6ee; border-radius:999px; padding:5px 11px;
+  }
+
+  /* ---------- CHECKLIST ---------- */
+  .check { list-style:none; margin:4px 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:2px 18px; }
+  .check li { padding:7px 0; }
+  .check label { display:flex; align-items:center; gap:10px; font-size:14px; cursor:pointer; }
+  .check input { width:17px; height:17px; accent-color:var(--sea); cursor:pointer; flex:0 0 17px; }
+  .check input:checked + span { text-decoration:line-through; color:var(--muted); }
+  .pack-note { margin:12px 0 2px; font-size:12.5px; color:var(--muted); }
+  .pack-count { font-size:12px; font-weight:700; color:var(--sea); background:#eef3f7; border-radius:999px; padding:4px 10px; margin-left:auto; }
+
+  footer { text-align:center; color:var(--muted); font-size:12.5px; padding:36px 24px 44px; }
+  footer a { color:inherit; }
+
+  @media (max-width:560px){
+    .hero { padding:48px 18px 28px; }
+    .brand-name { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <a class="brand" href="index.html">
+    <svg class="brand-mark" viewBox="0 0 48 48" fill="none" role="img" aria-label="Montenegro">
+      <defs><clipPath id="bkClip"><circle cx="24" cy="24" r="20"/></clipPath></defs>
+      <circle cx="24" cy="24" r="21.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      <g clip-path="url(#bkClip)">
+        <circle cx="33" cy="15" r="3" fill="currentColor"/>
+        <path d="M4 34 L15 19 L22 27 L28 21 L38 33 L44 34 Z" fill="currentColor"/>
+        <path d="M3 39 q4.5 -3 9 0 t9 0 t9 0 t9 0" stroke="currentColor" stroke-width="1.7" fill="none"/>
+        <path d="M6 44 q4.5 -3 9 0 t9 0" stroke="currentColor" stroke-width="1.5" fill="none" opacity=".6"/>
+      </g>
+    </svg>
+    <span class="brand-name"><b>Montenegro</b><small>Boka · '26</small></span>
+  </a>
+  <div class="langs">
+    <a class="lang-btn nav-btn" href="index.html" data-i18n="navItin">← Itinerari</a>
+    <button type="button" class="lang-btn" data-lang="ca">CA</button>
+    <button type="button" class="lang-btn" data-lang="es">ES</button>
+    <button type="button" class="lang-btn" data-lang="en">EN</button>
+  </div>
+  <div class="hero-inner">
+    <span class="kicker" data-i18n="kicker">Boka Kotorska · 22–25 de juliol · 2026</span>
+    <h1 data-i18n="orgTitle">Organització</h1>
+  </div>
+</header>
+
+<div class="wrap">
+  <p class="sec-sub" data-i18n="orgSub">Reserves, enllaços i la maleta: tot el pràctic del viatge en un sol lloc.</p>
+
+  <div class="org-grid">
+
+    <section class="org-card">
+      <div class="org-head">
+        <span class="org-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></span>
+        <h2 data-i18n="cFlights">Vols</h2>
+      </div>
+      <div class="org-body">
+        <div class="org-row">
+          <div class="org-info" data-i18n="f1"><b>Vol d'anada</b><span>dimecres 22 de juliol</span></div>
+          <span class="pending" data-i18n="pend">Pendent d'enllaç</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="f2"><b>Vol de tornada</b><span>dissabte 25 · 13:00 · aeroport de Tivat</span></div>
+          <span class="pending" data-i18n="pend">Pendent d'enllaç</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="f3"><b>Equipatge facturat</b><span>condicions i facturació de la maleta</span></div>
+          <span class="pending" data-i18n="pend">Pendent d'enllaç</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="org-card">
+      <div class="org-head">
+        <span class="org-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>
+        <h2 data-i18n="cStay">Allotjaments</h2>
+      </div>
+      <div class="org-body">
+        <div class="org-row">
+          <div class="org-info" data-i18n="s1"><b>Casa llac · Rooms Dujeva Drago</b><span>checkout dimecres 22 · abans de les 11:00</span></div>
+          <a class="go soft" href="https://maps.app.goo.gl/5py5v1prxxbG8hU57" target="_blank" rel="noopener">Maps ↗</a>
+          <span class="pending" data-i18n="pendRes">Reserva pendent</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="s2"><b>Casa Costa · Prčanj</b><span>checkin dc 22 a partir de les 15:00 · checkout ds 25 · amfitrió: Luka</span></div>
+          <a class="go soft" href="https://maps.app.goo.gl/sKj7rwfoWgvkhcGF7" target="_blank" rel="noopener">Maps ↗</a>
+          <span class="pending" data-i18n="pendRes">Reserva pendent</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="org-card">
+      <div class="org-head">
+        <span class="org-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg></span>
+        <h2 data-i18n="cCar">Cotxe de lloguer</h2>
+      </div>
+      <div class="org-body">
+        <div class="org-row">
+          <div class="org-info" data-i18n="c1"><b>Reserva del cotxe</b><span>tot el viatge · retorn a l'aeroport de Tivat ds 25 ~11:30 · dipòsit ple</span></div>
+          <span class="pending" data-i18n="pend">Pendent d'enllaç</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="org-card">
+      <div class="org-head">
+        <span class="org-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></span>
+        <h2 data-i18n="cAct">Activitats</h2>
+      </div>
+      <div class="org-body">
+        <div class="org-row">
+          <div class="org-info" data-i18n="a1"><b>Kayak Rental Veslo</b><span>opció Blue Cave (dia 3, cal matinar)</span></div>
+          <a class="go soft" href="https://maps.app.goo.gl/MHxD9C8tzJ2PjZZe6" target="_blank" rel="noopener">Maps ↗</a>
+          <span class="pending" data-i18n="pendRes">Reserva pendent</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="a2"><b>Barca a Our Lady of the Rocks</b><span>des del moll de Perast · ~20 € per barca</span></div>
+          <span class="chip" data-i18n="cash">Efectiu, sense reserva</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="a3"><b>Fortalesa de San Giovanni</b><span>15 €/persona a taquilla</span></div>
+          <span class="chip" data-i18n="cash">Efectiu, sense reserva</span>
+        </div>
+        <div class="org-row">
+          <div class="org-info" data-i18n="a4"><b>Festa a Budva</b><span>divendres 24 a la nit · lloc per decidir</span></div>
+          <span class="pending" data-i18n="tbd">Per decidir</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="org-card" style="grid-column:1/-1">
+      <div class="org-head">
+        <span class="org-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+        <h2 data-i18n="cPack">La maleta</h2>
+        <span class="pack-count" id="packCount">0/0</span>
+      </div>
+      <div class="org-body">
+        <ul class="check">
+          <li><label><input type="checkbox" id="pk1"><span data-i18n="p1">Passaport o DNI</span></label></li>
+          <li><label><input type="checkbox" id="pk2"><span data-i18n="p2">Efectiu en € (fortalesa, barques, pàrquings)</span></label></li>
+          <li><label><input type="checkbox" id="pk3"><span data-i18n="p3">Escarpines (platges de còdols)</span></label></li>
+          <li><label><input type="checkbox" id="pk4"><span data-i18n="p4">Banyadors i tovallola</span></label></li>
+          <li><label><input type="checkbox" id="pk5"><span data-i18n="p5">Protecció solar i gorra</span></label></li>
+          <li><label><input type="checkbox" id="pk6"><span data-i18n="p6">Calçat còmode per la fortalesa</span></label></li>
+          <li><label><input type="checkbox" id="pk7"><span data-i18n="p7">Roba de festa (nit de Budva)</span></label></li>
+          <li><label><input type="checkbox" id="pk8"><span data-i18n="p8">Carregadors i powerbank</span></label></li>
+          <li><label><input type="checkbox" id="pk9"><span data-i18n="p9">Farmaciola bàsica</span></label></li>
+          <li><label><input type="checkbox" id="pk10"><span data-i18n="p10">Motxilla petita per les excursions</span></label></li>
+          <li><label><input type="checkbox" id="pk11"><span data-i18n="p11">Tupper i cantimplora (dinars de platja)</span></label></li>
+          <li><label><input type="checkbox" id="pk12"><span data-i18n="p12">Ulleres de sol</span></label></li>
+        </ul>
+        <p class="pack-note" data-i18n="packNote">Endolls: a Montenegro són com els d'Espanya (230 V, tipus C/F), no cal adaptador. La llista es desa al teu mòbil: cadascú marca la seva.</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<footer data-i18n="footer">Boka Kotorska · 22–25 juliol · fet per al grup<br>
+Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA</footer>
+
+<script>
+  /* ---------- language (compartit amb l'index via localStorage) ---------- */
+  var INIT_LANG = 'ca';
+  try { INIT_LANG = localStorage.getItem('mnt_lang') || 'ca'; } catch(e){}
+  if (['ca','es','en'].indexOf(INIT_LANG) < 0) INIT_LANG = 'ca';
+
+  var I18N = {
+    es: {
+      navItin: "← Itinerario",
+      kicker: "Boka Kotorska · 22–25 de julio · 2026",
+      orgTitle: "Organización",
+      orgSub: "Reservas, enlaces y la maleta: todo lo práctico del viaje en un solo sitio.",
+      cFlights: "Vuelos",
+      f1: '<b>Vuelo de ida</b><span>miércoles 22 de julio</span>',
+      f2: '<b>Vuelo de vuelta</b><span>sábado 25 · 13:00 · aeropuerto de Tivat</span>',
+      f3: '<b>Equipaje facturado</b><span>condiciones y facturación de la maleta</span>',
+      cStay: "Alojamientos",
+      s1: '<b>Casa lago · Rooms Dujeva Drago</b><span>checkout miércoles 22 · antes de las 11:00</span>',
+      s2: '<b>Casa Costa · Prčanj</b><span>checkin mié 22 a partir de las 15:00 · checkout sáb 25 · anfitrión: Luka</span>',
+      cCar: "Coche de alquiler",
+      c1: '<b>Reserva del coche</b><span>todo el viaje · devolución en el aeropuerto de Tivat sáb 25 ~11:30 · depósito lleno</span>',
+      cAct: "Actividades",
+      a1: '<b>Kayak Rental Veslo</b><span>opción Blue Cave (día 3, hay que madrugar)</span>',
+      a2: '<b>Barca a Our Lady of the Rocks</b><span>desde el muelle de Perast · ~20 € por barca</span>',
+      a3: '<b>Fortaleza de San Giovanni</b><span>15 €/persona en taquilla</span>',
+      a4: '<b>Fiesta en Budva</b><span>viernes 24 por la noche · sitio por decidir</span>',
+      cPack: "La maleta",
+      p1: "Pasaporte o DNI",
+      p2: "Efectivo en € (fortaleza, barcas, parkings)",
+      p3: "Escarpines (playas de cantos rodados)",
+      p4: "Bañadores y toalla",
+      p5: "Protección solar y gorra",
+      p6: "Calzado cómodo para la fortaleza",
+      p7: "Ropa de fiesta (noche de Budva)",
+      p8: "Cargadores y powerbank",
+      p9: "Botiquín básico",
+      p10: "Mochila pequeña para las excursiones",
+      p11: "Tupper y cantimplora (comidas de playa)",
+      p12: "Gafas de sol",
+      packNote: "Enchufes: en Montenegro son como los de España (230 V, tipo C/F), no hace falta adaptador. La lista se guarda en tu móvil: cada uno marca la suya.",
+      pend: "Pendiente de enlace",
+      pendRes: "Reserva pendiente",
+      tbd: "Por decidir",
+      cash: "Efectivo, sin reserva",
+      footer: 'Boka Kotorska · 22–25 julio · hecho para el grupo<br>Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a> y Google Maps'
+    },
+    en: {
+      navItin: "← Itinerary",
+      kicker: "Bay of Kotor · 22–25 July 2026",
+      orgTitle: "Planning",
+      orgSub: "Bookings, links and the packing list: all the practical stuff in one place.",
+      cFlights: "Flights",
+      f1: '<b>Outbound flight</b><span>Wednesday 22 July</span>',
+      f2: '<b>Return flight</b><span>Saturday 25 · 13:00 · Tivat airport</span>',
+      f3: '<b>Checked luggage</b><span>bag conditions and check-in</span>',
+      cStay: "Accommodation",
+      s1: '<b>Lake house · Rooms Dujeva Drago</b><span>check-out Wednesday 22 · before 11:00</span>',
+      s2: '<b>Casa Costa · Prčanj</b><span>check-in Wed 22 from 15:00 · check-out Sat 25 · host: Luka</span>',
+      cCar: "Rental car",
+      c1: '<b>Car booking</b><span>whole trip · return at Tivat airport Sat 25 ~11:30 · full tank</span>',
+      cAct: "Activities",
+      a1: '<b>Kayak Rental Veslo</b><span>Blue Cave option (day 3, early start)</span>',
+      a2: '<b>Boat to Our Lady of the Rocks</b><span>from Perast quay · ~€20 per boat</span>',
+      a3: '<b>San Giovanni Fortress</b><span>€15/person at the gate</span>',
+      a4: '<b>Party in Budva</b><span>Friday 24 night · spot TBD</span>',
+      cPack: "Packing list",
+      p1: "Passport or ID",
+      p2: "Cash in € (fortress, boats, parking)",
+      p3: "Water shoes (pebble beaches)",
+      p4: "Swimwear and towel",
+      p5: "Sunscreen and cap",
+      p6: "Comfortable shoes for the fortress",
+      p7: "Party outfit (Budva night)",
+      p8: "Chargers and power bank",
+      p9: "Basic first-aid kit",
+      p10: "Small backpack for day trips",
+      p11: "Lunchbox and water bottle (beach lunches)",
+      p12: "Sunglasses",
+      packNote: "Plugs: Montenegro uses the same sockets as Spain (230 V, type C/F), no adapter needed. The list is saved on your phone: everyone ticks their own.",
+      pend: "Link pending",
+      pendRes: "Booking pending",
+      tbd: "To be decided",
+      cash: "Cash, no booking needed",
+      footer: 'Bay of Kotor · 22–25 July · made for the group<br>Photos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a> and Google Maps'
+    }
+  };
+
+  var i18nOrig = {};
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n');
+    if(!(k in i18nOrig)) i18nOrig[k] = el.innerHTML;
+  });
+  function setLang(lang){
+    var dict = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      var v = (lang === 'ca') ? i18nOrig[k] : (dict && dict[k] != null ? dict[k] : i18nOrig[k]);
+      if(v != null) el.innerHTML = v;
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn[data-lang]').forEach(function(b){
+      var on = b.getAttribute('data-lang') === lang;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+    try { localStorage.setItem('mnt_lang', lang); } catch(e){}
+  }
+  document.querySelectorAll('.lang-btn[data-lang]').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); });
+  });
+  setLang(INIT_LANG);
+
+  /* ---------- checklist amb memòria al navegador ---------- */
+  function updCount(){
+    var t = document.querySelectorAll('.check input').length;
+    var c = document.querySelectorAll('.check input:checked').length;
+    document.getElementById('packCount').textContent = c + '/' + t;
+  }
+  document.querySelectorAll('.check input').forEach(function(cb){
+    var k = 'mnt_pack_' + cb.id;
+    try { cb.checked = localStorage.getItem(k) === '1'; } catch(e){}
+    cb.addEventListener('change', function(){
+      try { localStorage.setItem(k, cb.checked ? '1' : '0'); } catch(e){}
+      updCount();
+    });
+  });
+  updCount();
+</script>
+</body>
+</html>

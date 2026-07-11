@@ -47,6 +47,7 @@
   .lang-btn { background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); color:#fff; font-family:inherit; font-size:12px; font-weight:700; letter-spacing:.02em; padding:6px 10px; border-radius:8px; cursor:pointer; transition:background .15s, color .15s; }
   .lang-btn:hover { background:rgba(255,255,255,.3); }
   .lang-btn.active { background:#fff; color:var(--sea); border-color:#fff; }
+  .nav-btn { text-decoration:none; display:inline-flex; align-items:center; margin-right:6px; }
   .brand { position:absolute; top:15px; left:20px; z-index:4; display:inline-flex; align-items:center; gap:9px; color:#fff; }
   .brand-mark { width:34px; height:34px; display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
   .brand-name { display:flex; flex-direction:column; line-height:1; }
@@ -183,6 +184,7 @@
     <span class="brand-name"><b>Montenegro</b><small>Boka · '26</small></span>
   </div>
   <div class="langs">
+    <a class="lang-btn nav-btn" href="organitzacio.html" data-i18n="navOrg">Organització</a>
     <button type="button" class="lang-btn" data-lang="ca">CA</button>
     <button type="button" class="lang-btn" data-lang="es">ES</button>
     <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -353,6 +355,7 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
 
   var I18N = {
     es: {
+      navOrg: "Organización",
       kicker: "Boka Kotorska · 22–25 de julio · 2026",
       mapTitle: "El mapa",
       mapSub: "Haz clic en un <b>día</b> de la leyenda para verlo solo con su ruta; haz clic en un <b>punto</b> para abrirlo en Google Maps.",
@@ -397,6 +400,7 @@ Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target
       footer: 'Boka Kotorska · 22–25 julio · hecho para el grupo<br>Fotos: <a href="https://commons.wikimedia.org/wiki/Category:Bay_of_Kotor" target="_blank" rel="noopener">Wikimedia Commons</a> y Google Maps'
     },
     en: {
+      navOrg: "Planning",
       kicker: "Bay of Kotor · 22–25 July 2026",
       mapTitle: "The map",
       mapSub: "Click a <b>day</b> in the legend to see just that day and its route; click a <b>point</b> to open it in Google Maps.",
